@@ -3,8 +3,11 @@ package br.com.zlab.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import br.com.zlab.enums.TipoEndereco;
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -35,6 +38,17 @@ public class Endereco implements Serializable {
 	@ManyToOne(targetEntity = Pessoa.class)
 	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
 	private Pessoa pessoa;
+	
+	@Enumerated(EnumType.STRING)
+	private TipoEndereco tipoEndereco;
+	
+	public void setTipoEndereco(TipoEndereco tipoEndereco) {
+		this.tipoEndereco = tipoEndereco;
+	}
+	
+	public TipoEndereco getTipoEndereco() {
+		return tipoEndereco;
+	}
 
 	public Long getId() {
 		return id;
