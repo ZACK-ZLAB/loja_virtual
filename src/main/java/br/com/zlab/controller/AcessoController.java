@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.zlab.model.Acesso;
 import br.com.zlab.repository.AcessoRepository;
-import br.com.zlab.service.AcessoService;
+import br.com.zlab.repository.service.AcessoService;
 
 @Controller
 @RestController
@@ -28,46 +27,51 @@ public class AcessoController {
 	
 	@Autowired
 	private AcessoRepository acessoRepository;
-
-	@ResponseBody
-	@PostMapping(value = "/salvarAcesso")
-	public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso) {
-
+	
+	@ResponseBody /*Para ser possível dar um retorno da API*/
+	@PostMapping(value = "/salvarAcesso") /*Mapeando a url para receber JSON*/
+	public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso) { /*Recebe o JSON e converte para Objeto Java*/
+		
 		Acesso acessoSalvo = acessoService.save(acesso);
-
+		
 		return new ResponseEntity<Acesso>(acessoSalvo, HttpStatus.OK);
 	}
 	
-	@ResponseBody
-	@PostMapping(value = "/deleteAcesso")
-	public ResponseEntity<?> deleteAcesso(@RequestBody Acesso acesso) {
+	@ResponseBody /*Para ser possível dar um retorno da API*/
+	@PostMapping(value = "/deleteAcesso") /*Mapeando a url para receber JSON*/
+	public ResponseEntity<?> deleteAcesso(@RequestBody Acesso acesso) { /*Recebe o JSON e converte para Objeto Java*/
 		
-		acessoRepository.deleteById(acesso.getId());
-		return new ResponseEntity("Acesso Removido", HttpStatus.OK);
+		acessoService.delete(acesso);
+		
+		return new ResponseEntity("Acesso excluido com suceso", HttpStatus.OK);
 	}
 	
 	@ResponseBody
-	@DeleteMapping(value = "/deleteAcessoPorId/{id}")
-	public ResponseEntity<?> deleteAcesso(@PathVariable("id") Long id) {
+	@DeleteMapping(value = "/deleteAcessoPorId/{id}") 
+	public ResponseEntity<?> deleteAcessoPorId(@PathVariable ("id") Long id) {
 		
 		acessoRepository.deleteById(id);
-		return new ResponseEntity("Acesso Removido", HttpStatus.OK);
+		
+		return new ResponseEntity<>("Acesso removido", HttpStatus.OK);
 	}
 	
-	@ResponseBody
+	@ResponseBody 
 	@GetMapping(value = "/obterAcesso/{id}")
-	public ResponseEntity<Acesso> obterAcesso(@PathVariable("id") Long id) {
+	public ResponseEntity<Acesso> obterAcesso(@PathVariable("id") Long id) { 
 		
 		Acesso acesso = acessoRepository.findById(id).get();
+		
 		return new ResponseEntity<Acesso>(acesso, HttpStatus.OK);
 	}
 	
-	@ResponseBody
+	@ResponseBody 
 	@GetMapping(value = "/buscarPorDesc/{desc}")
-	public ResponseEntity<List<Acesso>> buscarPorDesc(@PathVariable("desc") String desc) {
+	public ResponseEntity<List<Acesso>> buscarPorDesc(@PathVariable("desc") String desc) { 
 		
-		List<Acesso> acesso = acessoRepository.buscarAcessoDesc(desc);
+		List <Acesso> acessos = acessoRepository.buscarAcessoDesc(desc);
 		
-		return new ResponseEntity<List<Acesso>>(acesso, HttpStatus.OK);
+		return new ResponseEntity<List<Acesso>>(acessos, HttpStatus.OK);
 	}
+	
+	
 }
