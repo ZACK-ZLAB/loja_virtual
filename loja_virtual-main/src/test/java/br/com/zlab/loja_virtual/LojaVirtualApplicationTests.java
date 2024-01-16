@@ -1,12 +1,9 @@
 package br.com.zlab.loja_virtual;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.Calendar;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.asm.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -18,9 +15,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.com.zlab.loja_virtual.controller.AcessoController;
+import br.com.zlab.loja_virtual.exception.ExceptionLojaVirtual;
 import br.com.zlab.loja_virtual.model.Acesso;
+import br.com.zlab.loja_virtual.repository.AcessoRepository;
 import junit.framework.TestCase;
 
 @SpringBootTest(classes = LojaVirtualApplication.class)
@@ -207,7 +208,7 @@ public class LojaVirtualApplicationTests extends TestCase {
 	
 	
 	@Test
-	public void testCadastraAcesso() throws ExceptionMentoriaJava {
+	public void testCadastraAcesso() throws ExceptionLojaVirtual {
 		
 		String descacesso = "ROLE_ADMIN" + Calendar.getInstance().getTimeInMillis();
 		

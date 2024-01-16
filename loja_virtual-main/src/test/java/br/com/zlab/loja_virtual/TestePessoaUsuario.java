@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import br.com.zlab.loja_virtual.controller.PessoaController;
+import br.com.zlab.loja_virtual.exception.ExceptionLojaVirtual;
 import br.com.zlab.loja_virtual.model.PessoaJuridica;
 import junit.framework.TestCase;
 
@@ -16,7 +18,7 @@ public class TestePessoaUsuario extends TestCase {
 	private PessoaController pessoaController;
 
 	@Test
-	public void testCadPessoaFisica() throws ExceptionMentoriaJava {
+	public void testCadPessoaFisica() throws ExceptionLojaVirtual {
 
 		PessoaJuridica pessoaJuridica = new PessoaJuridica();
 		pessoaJuridica.setCnpj("" + Calendar.getInstance().getTimeInMillis());
