@@ -1,0 +1,52 @@
+{"properties": [
+  {
+    "name": "spring.jpa.hibernate.temp.use_jdbc_metadata_defaults",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.jpa.hibernate.temp.use_jdbc_metadata_defaults'"
+  },
+  {
+    "name": "spring.jpa.hibernate.dialect",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.jpa.hibernate.dialect'"
+  },
+  {
+    "name": "spring.server.servlet.context-path",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.server.servlet.context-path'"
+  },
+  {
+    "name": "spring.server.compression.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.server.compression.enabled'"
+  },
+  {
+    "name": "spring.server.compression.mime-types",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.server.compression.mime-types'"
+  },
+  {
+    "name": "spring.server.compression.min-response-size",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.server.compression.min-response-size'"
+  },
+  {
+    "name": "spring.server.http2.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.server.http2.enabled'"
+  },
+  {
+    "name": "spring.server.tomcat.max-connections",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.server.tomcat.max-connections'"
+  },
+  {
+    "name": "spring.server.tomcat.min-spare-threads",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.server.tomcat.min-spare-threads'"
+  },
+  {
+    "name": "spring.jpa.hibernate.temp.[use-jdbc-metadata-defaults]",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.jpa.hibernate.temp.[use-jdbc-metadata-defaults]'"
+  }
+]}
