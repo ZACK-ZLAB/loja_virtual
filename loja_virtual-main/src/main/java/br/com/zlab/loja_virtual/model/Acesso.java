@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -29,6 +30,12 @@ public class Acesso implements GrantedAuthority {
 
 	@Column(nullable = false)
 	private String descricao; /* Acesso ex: ROLE_ADMIN ou ROLE_SECRETARIO */
+	
+	@JsonIgnore
+	@Transient
+	public boolean isPersistida() {
+		return getId() != null && getId() > 0;
+	}
 
 	@JsonIgnore
 	@Override

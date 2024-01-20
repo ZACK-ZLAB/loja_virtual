@@ -48,5 +48,110 @@
     "name": "spring.jpa.hibernate.temp.[use-jdbc-metadata-defaults]",
     "type": "java.lang.String",
     "description": "A description for 'spring.jpa.hibernate.temp.[use-jdbc-metadata-defaults]'"
+  },
+  {
+    "name": "application.security.jwt.secret-key",
+    "type": "java.lang.String",
+    "description": "A description for 'application.security.jwt.secret-key'"
+  },
+  {
+    "name": "application.security.jwt.expiration",
+    "type": "java.lang.String",
+    "description": "A description for 'application.security.jwt.expiration'"
+  },
+  {
+    "name": "application.security.jwt.refresh-token.expiration",
+    "type": "java.lang.String",
+    "description": "A description for 'application.security.jwt.refresh-token.expiration'"
+  },
+  {
+    "name": "application.server.servlet.context-path",
+    "type": "java.lang.String",
+    "description": "A description for 'application.server.servlet.context-path'"
+  },
+  {
+    "name": "application.server.compression.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'application.server.compression.enabled'"
+  },
+  {
+    "name": "application.server.compression.mime-types",
+    "type": "java.lang.String",
+    "description": "A description for 'application.server.compression.mime-types'"
+  },
+  {
+    "name": "application.server.http2.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'application.server.http2.enabled'"
+  },
+  {
+    "name": "application.server.compression.min-response-size",
+    "type": "java.lang.String",
+    "description": "A description for 'application.server.compression.min-response-size'"
+  },
+  {
+    "name": "application.server.tomcat.max-connections",
+    "type": "java.lang.String",
+    "description": "A description for 'application.server.tomcat.max-connections'"
+  },
+  {
+    "name": "application.server.tomcat.min-spare-threads",
+    "type": "java.lang.String",
+    "description": "A description for 'application.server.tomcat.min-spare-threads'"
+  },
+  {
+    "name": "application.session.jdbc.cleanup-cron",
+    "type": "java.lang.String",
+    "description": "A description for 'application.session.jdbc.cleanup-cron'"
+  },
+  {
+    "name": "application.mvc.static-path-pattern",
+    "type": "java.lang.String",
+    "description": "A description for 'application.mvc.static-path-pattern'"
+  },
+  {
+    "name": "application.flyway.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'application.flyway.enabled'"
+  },
+  {
+    "name": "application.flyway.sql-migration-suffixes",
+    "type": "java.lang.String",
+    "description": "A description for 'application.flyway.sql-migration-suffixes'"
+  },
+  {
+    "name": "application.flyway.baseline-on-migrate",
+    "type": "java.lang.String",
+    "description": "A description for 'application.flyway.baseline-on-migrate'"
+  },
+  {
+    "name": "application.flyway.locations",
+    "type": "java.lang.String",
+    "description": "A description for 'application.flyway.locations'"
+  },
+  {
+    "name": "application.flyway.fail-on-missing-locations",
+    "type": "java.lang.String",
+    "description": "A description for 'application.flyway.fail-on-missing-locations'"
+  },
+  {
+    "name": "application.flyway.baseline-version",
+    "type": "java.lang.String",
+    "description": "A description for 'application.flyway.baseline-version'"
+  },
+  {
+    "name": "application.flyway.sql-migration-prefix",
+    "type": "java.lang.String",
+    "description": "A description for 'application.flyway.sql-migration-prefix'"
+  },
+  {
+    "name": "application.flyway.sql-migration-separator",
+    "type": "java.lang.String",
+    "description": "A description for 'application.flyway.sql-migration-separator'"
+  },
+  {
+    "name": "spring.jpa.hibernate.temp.[use-jdbc-metadata-defaults]",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.jpa.hibernate.temp.[use-jdbc-metadata-defaults]'"
   }
 ]}

@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.zlab.loja_virtual.exception.ExceptionLojaVirtual;
+import com.google.common.base.Preconditions;
+
 import br.com.zlab.loja_virtual.model.Acesso;
 import br.com.zlab.loja_virtual.repository.AcessoRepository;
 import br.com.zlab.loja_virtual.service.AcessoService;
@@ -31,17 +32,15 @@ public class AcessoController {
 
 	@ResponseBody /* Poder dar um retorno da API */
 	@PostMapping(value = "/salvarAcesso") /* Mapeando a url para receber JSON */
-	public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso)
-			throws ExceptionLojaVirtual { /* Recebe o JSON e converte pra Objeto */
+	public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso) { /* Recebe o JSON e converte pra Objeto */
 
-		if (acesso.getId() == null) {
-			List<Acesso> acessos = acessoRepository.buscarAcessoDesc(acesso.getDescricao().toUpperCase());
+		List<Acesso> outrosacessos = acessoRepository.buscarAcessoDesc(acesso.getDescricao().toUpperCase());
+		if (outrosacessos != null) {
+			if (acesso.isPersistida()) {
+				Preconditions.checkArgument(outrosacessos.equals(acesso), "Esse Acesso já existe");
 
-			if (!acessos.isEmpty()) {
-				throw new ExceptionLojaVirtual("Já existe Acesso com a descrição: " + acesso.getDescricao());
 			}
 		}
-
 		Acesso acessoSalvo = acessoService.save(acesso);
 
 		return new ResponseEntity<Acesso>(acessoSalvo, HttpStatus.OK);
@@ -68,15 +67,13 @@ public class AcessoController {
 
 	@ResponseBody
 	@GetMapping(value = "/obterAcesso/{id}")
-	public ResponseEntity<Acesso> obterAcesso(@PathVariable("id") Long id) throws ExceptionLojaVirtual {
+	public ResponseEntity<Acesso> obterAcesso(@PathVariable("id") Long id){
 
-		Acesso acesso = acessoRepository.findById(id).orElse(null);
-
-		if (acesso == null) {
-			throw new ExceptionLojaVirtual("Não encontrou Acesso com código: " + id);
-		}
-
-		return new ResponseEntity<Acesso>(acesso, HttpStatus.OK);
+		Acesso acessoEncontrado = acessoRepository.findById(id).orElse(null);
+		
+		Preconditions.checkNotNull(acessoEncontrado, 
+				"Não encontrou Acesso com código: " + id);
+		return new ResponseEntity<Acesso>(acessoEncontrado, HttpStatus.OK);
 	}
 
 	@ResponseBody

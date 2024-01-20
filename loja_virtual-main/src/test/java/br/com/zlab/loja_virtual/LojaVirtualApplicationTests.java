@@ -19,7 +19,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.zlab.loja_virtual.controller.AcessoController;
-import br.com.zlab.loja_virtual.exception.ExceptionLojaVirtual;
 import br.com.zlab.loja_virtual.model.Acesso;
 import br.com.zlab.loja_virtual.repository.AcessoRepository;
 import junit.framework.TestCase;
@@ -208,7 +207,7 @@ public class LojaVirtualApplicationTests extends TestCase {
 	
 	
 	@Test
-	public void testCadastraAcesso() throws ExceptionLojaVirtual {
+	public void testCadastraAcesso(){
 		
 		String descacesso = "ROLE_ADMIN" + Calendar.getInstance().getTimeInMillis();
 		

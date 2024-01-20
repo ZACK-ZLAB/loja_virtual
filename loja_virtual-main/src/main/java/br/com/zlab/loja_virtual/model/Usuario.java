@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import br.com.zlab.loja_virtual.token.Token;
 import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
@@ -80,6 +81,9 @@ public class Usuario implements UserDetails {
 						foreignKey = @ForeignKey(name = "aesso_fk", value = ConstraintMode.CONSTRAINT)))
 	private List<Acesso> acessos;
 	
+	@OneToMany(mappedBy = "user")
+	  private List<Token> tokens;
+
 	
 	public Pessoa getEmpresa() {
 		return empresa;

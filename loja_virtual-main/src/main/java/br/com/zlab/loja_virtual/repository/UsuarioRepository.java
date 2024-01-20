@@ -1,5 +1,7 @@
 package br.com.zlab.loja_virtual.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -12,7 +14,7 @@ import jakarta.transaction.Transactional;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	
 	@Query(value = "select u from Usuario u where u.login = ?1")
-	Usuario findUserByLogin(String login);
+	Optional<Usuario> findUserByLogin(String login);
 
 	@Query(value = "select u from Usuario u where u.pessoa.id = ?1 or u.login =?2")
 	Usuario findUserByPessoa(Long id, String email);
@@ -24,5 +26,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	@Modifying
 	@Query(nativeQuery = true, value = "insert into usuarios_acesso(usuario_id, acesso_id) values (?1, (select id from acesso where descricao = 'ROLE_USER'))")
 	void insereAcessoUserPj(Long iduser);
+
 
 }
