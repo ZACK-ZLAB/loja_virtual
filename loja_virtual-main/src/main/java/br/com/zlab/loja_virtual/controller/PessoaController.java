@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.base.Preconditions;
-
+import br.com.zlab.loja_virtual.exception.handler.LojaVirtualException;
 import br.com.zlab.loja_virtual.model.PessoaJuridica;
 import br.com.zlab.loja_virtual.repository.PesssoaRepository;
 import br.com.zlab.loja_virtual.service.PessoaUserService;
@@ -26,13 +25,16 @@ public class PessoaController {
 	/*end-point é microsservicos é um API*/
 	@ResponseBody
 	@PostMapping(value = "/salvarPj")
-	public ResponseEntity<PessoaJuridica> salvarPj(@RequestBody PessoaJuridica pessoaJuridica){
-		Preconditions.checkNotNull(pessoaJuridica, 
-				"Pessoa Juridica não pode ser null");
+	public ResponseEntity<PessoaJuridica> salvarPj(@RequestBody PessoaJuridica pessoaJuridica) throws LojaVirtualException{
 		
-		Preconditions.checkArgument(pessoaJuridica.getCnpj() != null, 
-				"Já existe CNPJ cadastrado com o número: " + pessoaJuridica.getCnpj());
+		if (pessoaJuridica == null) {
+			throw new LojaVirtualException("Pessoa juridica nao pode ser NULL");
+		}
 		
+		if (pessoaJuridica.getId() == null && pesssoaRepository.existeCnpjCadastrado(pessoaJuridica.getCnpj()) != null) {
+			throw new LojaVirtualException("Já existe CNPJ cadastrado com o número: " + pessoaJuridica.getCnpj());
+		}
+			
 		pessoaJuridica = pessoaUserService.salvarPessoaJuridica(pessoaJuridica);
 		
 		return new ResponseEntity<PessoaJuridica>(pessoaJuridica, HttpStatus.OK);

@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ public class PessoaJuridica extends Pessoa {
 	private String inscMunicipal;
 	
 	@Column(nullable = false)
+	@NotNull(message = "nome Fantasia não pode ser null")
 	private String nomeFantasia;
 	
 	@Column(nullable = false)

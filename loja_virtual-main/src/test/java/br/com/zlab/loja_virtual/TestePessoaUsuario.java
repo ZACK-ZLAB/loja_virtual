@@ -5,11 +5,14 @@ import java.util.Calendar;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
 
 import br.com.zlab.loja_virtual.controller.PessoaController;
+import br.com.zlab.loja_virtual.exception.handler.LojaVirtualException;
 import br.com.zlab.loja_virtual.model.PessoaJuridica;
 import junit.framework.TestCase;
 
+@Profile("dev")
 @SpringBootTest(classes = LojaVirtualApplication.class)
 public class TestePessoaUsuario extends TestCase {
 
@@ -17,12 +20,12 @@ public class TestePessoaUsuario extends TestCase {
 	private PessoaController pessoaController;
 
 	@Test
-	public void testCadPessoaFisica(){
+	public void testCadPessoaFisica() throws LojaVirtualException{
 
 		PessoaJuridica pessoaJuridica = new PessoaJuridica();
 		pessoaJuridica.setCnpj("" + Calendar.getInstance().getTimeInMillis());
 		pessoaJuridica.setNome("Alex fernando");
-		pessoaJuridica.setEmail("testesalvarpj@gmail.com");
+		pessoaJuridica.setEmail("teste2salvarpj@gmail.com");
 		pessoaJuridica.setTelefone("45999795800");
 		pessoaJuridica.setInscEstadual("65556565656665");
 		pessoaJuridica.setInscMunicipal("55554565656565");

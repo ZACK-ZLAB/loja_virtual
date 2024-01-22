@@ -17,15 +17,15 @@ SET row_security = off;
 
 --
 -- TOC entry 2344 (class 1262 OID 17479)
--- Name: loja_virtual; Type: DATABASE; Schema: -; Owner: postgres
+-- Name: loja_virtual_teste; Type: DATABASE; Schema: -; Owner: postgres
 --
 
--- CREATE DATABASE loja_virtual WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'Portuguese_Brazil.1252' LC_CTYPE = 'Portuguese_Brazil.1252';
+-- CREATE DATABASE loja_virtual_teste WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'Portuguese_Brazil.1252' LC_CTYPE = 'Portuguese_Brazil.1252';
 
 
-ALTER DATABASE loja_virtual OWNER TO postgres;
+ALTER DATABASE loja_virtual_teste OWNER TO postgres;
 
---\connect loja_virtual
+--\connect loja_virtual_teste
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1588,4 +1588,3 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 --
 -- PostgreSQL database dump complete
 --
-

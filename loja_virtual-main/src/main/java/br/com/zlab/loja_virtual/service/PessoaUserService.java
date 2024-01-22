@@ -39,6 +39,13 @@ public class PessoaUserService {
 	
 	public PessoaJuridica salvarPessoaJuridica(PessoaJuridica juridica) {
 		
+		
+		
+		for (int i = 0; i< juridica.getEnderecos().size(); i++) {
+			juridica.getEnderecos().get(i).setPessoa(juridica);
+			juridica.getEnderecos().get(i).setEmpresa(juridica);
+		}
+		
 		juridica = pesssoaRepository.save(juridica);
 		
 		Usuario usuarioPj = usuarioRepository.findUserByPessoa(juridica.getId(), juridica.getEmail());
@@ -57,8 +64,7 @@ public class PessoaUserService {
 			usuarioPj.setLogin(juridica.getEmail());
 			
 			
-			// + Calendar.getInstance().getTimeInMillis();
-			String senha = "123" ;
+			String senha = "" + Calendar.getInstance().getTimeInMillis();
 			String senhaCript = new BCryptPasswordEncoder().encode(senha);
 			
 			usuarioPj.setSenha(senhaCript);
