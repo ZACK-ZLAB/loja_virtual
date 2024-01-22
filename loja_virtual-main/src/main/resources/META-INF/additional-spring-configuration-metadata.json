@@ -153,5 +153,55 @@
     "name": "spring.jpa.hibernate.temp.[use-jdbc-metadata-defaults]",
     "type": "java.lang.String",
     "description": "A description for 'spring.jpa.hibernate.temp.[use-jdbc-metadata-defaults]'"
+  },
+  {
+    "name": "spring.jpa.hibernate.temp.[use-jdbc-metadata-defaults]",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.jpa.hibernate.temp.[use-jdbc-metadata-defaults]'"
+  },
+  {
+    "name": "flyway.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'flyway.enabled'"
+  },
+  {
+    "name": "flyway.locations",
+    "type": "java.lang.String",
+    "description": "A description for 'flyway.locations'"
+  },
+  {
+    "name": "flyway.baseline-on-migrate",
+    "type": "java.lang.String",
+    "description": "A description for 'flyway.baseline-on-migrate'"
+  },
+  {
+    "name": "flyway.validate-on-migrate",
+    "type": "java.lang.String",
+    "description": "A description for 'flyway.validate-on-migrate'"
+  },
+  {
+    "name": "flyway.fail-on-missing-locations",
+    "type": "java.lang.String",
+    "description": "A description for 'flyway.fail-on-missing-locations'"
+  },
+  {
+    "name": "flyway.baseline-version",
+    "type": "java.lang.String",
+    "description": "A description for 'flyway.baseline-version'"
+  },
+  {
+    "name": "flyway.sql-migration-separator",
+    "type": "java.lang.String",
+    "description": "A description for 'flyway.sql-migration-separator'"
+  },
+  {
+    "name": "flyway.sql-migration-prefix",
+    "type": "java.lang.String",
+    "description": "A description for 'flyway.sql-migration-prefix'"
+  },
+  {
+    "name": "flyway.sql-migration-suffixes",
+    "type": "java.lang.String",
+    "description": "A description for 'flyway.sql-migration-suffixes'"
   }
 ]}
