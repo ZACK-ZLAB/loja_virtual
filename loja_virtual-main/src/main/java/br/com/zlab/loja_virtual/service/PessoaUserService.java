@@ -79,7 +79,11 @@ public class PessoaUserService {
 			menssagemHtml.append("Obrigado!");
 
 			/* create a email sended here */
+			try {
 			emailService.sendEmail(juridica.getEmail(), "Dados de Acesso - Loja Virtual", menssagemHtml.toString());
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
 
 			// 1. Gerar o token JWT
 			var jwtToken = jwtService.generateToken(usuarioPj);
@@ -93,6 +97,7 @@ public class PessoaUserService {
 
 			// 4. Inserir informações de acesso para o usuário PJ no banco de dados
 			usuarioRepository.insereAcessoUserPj(usuarioPj.getId());
+			usuarioRepository.insereAcessoUserPj(usuarioPj.getId(), "ROLE_ADMIN");
 			saveUserToken(usuarioPj, jwtToken);
 
 		}

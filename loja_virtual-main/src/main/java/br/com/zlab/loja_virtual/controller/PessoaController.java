@@ -23,7 +23,7 @@ public class PessoaController {
 	@Autowired
 	private PessoaUserService pessoaUserService;
 	
-	/*end-point é microsservicos é um API*/
+	
 	@ResponseBody
 	@PostMapping(value = "/salvarPj")
 	public ResponseEntity<PessoaJuridica> salvarPj(@RequestBody PessoaJuridica pessoaJuridica) throws LojaVirtualException, MessagingException{
