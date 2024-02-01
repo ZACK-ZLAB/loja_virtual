@@ -12,6 +12,7 @@ import br.com.zlab.loja_virtual.exception.handler.LojaVirtualException;
 import br.com.zlab.loja_virtual.model.PessoaJuridica;
 import br.com.zlab.loja_virtual.repository.PesssoaRepository;
 import br.com.zlab.loja_virtual.service.PessoaUserService;
+import jakarta.mail.MessagingException;
 
 @RestController
 public class PessoaController {
@@ -25,7 +26,7 @@ public class PessoaController {
 	/*end-point é microsservicos é um API*/
 	@ResponseBody
 	@PostMapping(value = "/salvarPj")
-	public ResponseEntity<PessoaJuridica> salvarPj(@RequestBody PessoaJuridica pessoaJuridica) throws LojaVirtualException{
+	public ResponseEntity<PessoaJuridica> salvarPj(@RequestBody PessoaJuridica pessoaJuridica) throws LojaVirtualException, MessagingException{
 		
 		if (pessoaJuridica == null) {
 			throw new LojaVirtualException("Pessoa juridica nao pode ser NULL");

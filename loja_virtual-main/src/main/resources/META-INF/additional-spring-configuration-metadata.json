@@ -1,48 +1,8 @@
 {"properties": [
   {
-    "name": "spring.jpa.hibernate.temp.use_jdbc_metadata_defaults",
-    "type": "java.lang.String",
-    "description": "A description for 'spring.jpa.hibernate.temp.use_jdbc_metadata_defaults'"
-  },
-  {
     "name": "spring.jpa.hibernate.dialect",
     "type": "java.lang.String",
     "description": "A description for 'spring.jpa.hibernate.dialect'"
-  },
-  {
-    "name": "spring.server.servlet.context-path",
-    "type": "java.lang.String",
-    "description": "A description for 'spring.server.servlet.context-path'"
-  },
-  {
-    "name": "spring.server.compression.enabled",
-    "type": "java.lang.String",
-    "description": "A description for 'spring.server.compression.enabled'"
-  },
-  {
-    "name": "spring.server.compression.mime-types",
-    "type": "java.lang.String",
-    "description": "A description for 'spring.server.compression.mime-types'"
-  },
-  {
-    "name": "spring.server.compression.min-response-size",
-    "type": "java.lang.String",
-    "description": "A description for 'spring.server.compression.min-response-size'"
-  },
-  {
-    "name": "spring.server.http2.enabled",
-    "type": "java.lang.String",
-    "description": "A description for 'spring.server.http2.enabled'"
-  },
-  {
-    "name": "spring.server.tomcat.max-connections",
-    "type": "java.lang.String",
-    "description": "A description for 'spring.server.tomcat.max-connections'"
-  },
-  {
-    "name": "spring.server.tomcat.min-spare-threads",
-    "type": "java.lang.String",
-    "description": "A description for 'spring.server.tomcat.min-spare-threads'"
   },
   {
     "name": "spring.jpa.hibernate.temp.[use-jdbc-metadata-defaults]",
@@ -80,14 +40,14 @@
     "description": "A description for 'application.server.compression.mime-types'"
   },
   {
-    "name": "application.server.http2.enabled",
-    "type": "java.lang.String",
-    "description": "A description for 'application.server.http2.enabled'"
-  },
-  {
     "name": "application.server.compression.min-response-size",
     "type": "java.lang.String",
     "description": "A description for 'application.server.compression.min-response-size'"
+  },
+  {
+    "name": "application.server.http2.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'application.server.http2.enabled'"
   },
   {
     "name": "application.server.tomcat.max-connections",
@@ -110,98 +70,33 @@
     "description": "A description for 'application.mvc.static-path-pattern'"
   },
   {
-    "name": "application.flyway.enabled",
+    "name": "mail.host",
     "type": "java.lang.String",
-    "description": "A description for 'application.flyway.enabled'"
+    "description": "A description for 'mail.host'"
   },
   {
-    "name": "application.flyway.sql-migration-suffixes",
+    "name": "mail.properties.mail.smtp.auth",
     "type": "java.lang.String",
-    "description": "A description for 'application.flyway.sql-migration-suffixes'"
+    "description": "A description for 'mail.properties.mail.smtp.auth'"
   },
   {
-    "name": "application.flyway.baseline-on-migrate",
+    "name": "mail.port",
     "type": "java.lang.String",
-    "description": "A description for 'application.flyway.baseline-on-migrate'"
+    "description": "A description for 'mail.port'"
   },
   {
-    "name": "application.flyway.locations",
+    "name": "mail.username",
     "type": "java.lang.String",
-    "description": "A description for 'application.flyway.locations'"
+    "description": "A description for 'mail.username'"
   },
   {
-    "name": "application.flyway.fail-on-missing-locations",
+    "name": "mail.password",
     "type": "java.lang.String",
-    "description": "A description for 'application.flyway.fail-on-missing-locations'"
+    "description": "A description for 'mail.password'"
   },
   {
-    "name": "application.flyway.baseline-version",
+    "name": "mail.properties.mail.smtp.starttls.enable",
     "type": "java.lang.String",
-    "description": "A description for 'application.flyway.baseline-version'"
-  },
-  {
-    "name": "application.flyway.sql-migration-prefix",
-    "type": "java.lang.String",
-    "description": "A description for 'application.flyway.sql-migration-prefix'"
-  },
-  {
-    "name": "application.flyway.sql-migration-separator",
-    "type": "java.lang.String",
-    "description": "A description for 'application.flyway.sql-migration-separator'"
-  },
-  {
-    "name": "spring.jpa.hibernate.temp.[use-jdbc-metadata-defaults]",
-    "type": "java.lang.String",
-    "description": "A description for 'spring.jpa.hibernate.temp.[use-jdbc-metadata-defaults]'"
-  },
-  {
-    "name": "spring.jpa.hibernate.temp.[use-jdbc-metadata-defaults]",
-    "type": "java.lang.String",
-    "description": "A description for 'spring.jpa.hibernate.temp.[use-jdbc-metadata-defaults]'"
-  },
-  {
-    "name": "flyway.enabled",
-    "type": "java.lang.String",
-    "description": "A description for 'flyway.enabled'"
-  },
-  {
-    "name": "flyway.locations",
-    "type": "java.lang.String",
-    "description": "A description for 'flyway.locations'"
-  },
-  {
-    "name": "flyway.baseline-on-migrate",
-    "type": "java.lang.String",
-    "description": "A description for 'flyway.baseline-on-migrate'"
-  },
-  {
-    "name": "flyway.validate-on-migrate",
-    "type": "java.lang.String",
-    "description": "A description for 'flyway.validate-on-migrate'"
-  },
-  {
-    "name": "flyway.fail-on-missing-locations",
-    "type": "java.lang.String",
-    "description": "A description for 'flyway.fail-on-missing-locations'"
-  },
-  {
-    "name": "flyway.baseline-version",
-    "type": "java.lang.String",
-    "description": "A description for 'flyway.baseline-version'"
-  },
-  {
-    "name": "flyway.sql-migration-separator",
-    "type": "java.lang.String",
-    "description": "A description for 'flyway.sql-migration-separator'"
-  },
-  {
-    "name": "flyway.sql-migration-prefix",
-    "type": "java.lang.String",
-    "description": "A description for 'flyway.sql-migration-prefix'"
-  },
-  {
-    "name": "flyway.sql-migration-suffixes",
-    "type": "java.lang.String",
-    "description": "A description for 'flyway.sql-migration-suffixes'"
+    "description": "A description for 'mail.properties.mail.smtp.starttls.enable'"
   }
 ]}

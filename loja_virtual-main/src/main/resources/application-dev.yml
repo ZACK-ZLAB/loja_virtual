@@ -1,6 +1,9 @@
 spring:
+  main:
+    web-application-type: servlet
+
   datasource:
-    url: jdbc:postgresql://localhost:5432/loja_virtual_teste?autoReconnect=true
+    url: jdbc:postgresql://localhost:5432/loja_virtual?autoReconnect=true
     username: postgres
     password: 75128359
     driver-class-name: org.postgresql.Driver
@@ -14,7 +17,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
       temp:
         '[use-jdbc-metadata-defaults]': true
       dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -36,6 +39,18 @@ spring:
     sql-migration-prefix: V
     sql-migration-separator: __
     sql-migration-suffixes: .sql
+
+  mail:
+    host: sandbox.smtp.mailtrap.io
+    port: 2525
+    username: b530120f3ce95c
+    password: 97477b2a1a77cd
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 application:
   security:
