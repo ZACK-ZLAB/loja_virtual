@@ -17,6 +17,7 @@ import br.com.zlab.loja_virtual.service.PessoaUserService;
 import br.com.zlab.loja_virtual.util.ValidaCNPJ;
 import br.com.zlab.loja_virtual.util.ValidaCPF;
 import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
 
 @RestController
 public class PessoaController {
@@ -30,7 +31,7 @@ public class PessoaController {
 	
 	@ResponseBody
 	@PostMapping(value = "/salvarPj")
-	public ResponseEntity<PessoaJuridica> salvarPj(@RequestBody PessoaJuridica pessoaJuridica) throws LojaVirtualException, MessagingException{
+	public ResponseEntity<PessoaJuridica> salvarPj(@Valid @RequestBody PessoaJuridica pessoaJuridica) throws LojaVirtualException, MessagingException{
 		
 		if (pessoaJuridica == null) {
 			throw new LojaVirtualException("Pessoa juridica nao pode ser NULL");

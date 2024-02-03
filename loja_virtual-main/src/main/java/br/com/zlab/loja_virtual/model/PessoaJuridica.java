@@ -1,5 +1,7 @@
 package br.com.zlab.loja_virtual.model;
 
+import org.hibernate.validator.constraints.br.CNPJ;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
@@ -20,6 +22,7 @@ public class PessoaJuridica extends Pessoa {
 
 	private static final long serialVersionUID = 1L;
 
+	@CNPJ(message = "CNPJ está invalido")
 	@Column(nullable = false)
 	private String cnpj;
 	
