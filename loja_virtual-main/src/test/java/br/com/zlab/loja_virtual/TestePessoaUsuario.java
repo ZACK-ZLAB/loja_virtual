@@ -5,7 +5,6 @@ import java.util.Calendar;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
 
 import br.com.zlab.loja_virtual.controller.PessoaController;
 import br.com.zlab.loja_virtual.enums.TipoEndereco;

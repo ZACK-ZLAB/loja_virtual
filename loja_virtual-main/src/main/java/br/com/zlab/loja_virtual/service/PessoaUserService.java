@@ -7,8 +7,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import br.com.zlab.loja_virtual.config.JwtService;
+import br.com.zlab.loja_virtual.exception.dto.CepDTO;
 import br.com.zlab.loja_virtual.model.PessoaFisica;
 import br.com.zlab.loja_virtual.model.PessoaJuridica;
 import br.com.zlab.loja_virtual.model.Usuario;
@@ -173,6 +175,10 @@ public class PessoaUserService {
 
 		return pessoaFisica;
 
+	}
+	
+	public CepDTO consultaCep(String cep) {
+		return new RestTemplate().getForEntity("https://viacep.com.br/ws/"+ cep +"/json/", CepDTO.class).getBody();
 	}
 
 	private void saveUserToken(Usuario user, String jwtToken) {
