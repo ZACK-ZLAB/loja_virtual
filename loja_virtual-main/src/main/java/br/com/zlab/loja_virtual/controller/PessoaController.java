@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.zlab.loja_virtual.enums.TipoPessoa;
 import br.com.zlab.loja_virtual.exception.dto.CepDTO;
+import br.com.zlab.loja_virtual.exception.dto.ConsultaCnpjDto;
 import br.com.zlab.loja_virtual.exception.handler.LojaVirtualException;
 import br.com.zlab.loja_virtual.model.Endereco;
 import br.com.zlab.loja_virtual.model.PessoaFisica;
@@ -92,6 +93,14 @@ public class PessoaController {
 	public ResponseEntity<CepDTO> consultaCep(@PathVariable("cep") String cep) {
 		return new ResponseEntity<CepDTO>(pessoaUserService.consultaCep(cep), HttpStatus.OK);
 	}
+	
+	@ResponseBody
+	@GetMapping(value = "/consultaCnpjReceitaWs/{cnpj}")
+	public ResponseEntity<ConsultaCnpjDto> consultaCnpjReceitaWs(@PathVariable("cnpj") String cnpj){
+		
+	  return new ResponseEntity<ConsultaCnpjDto>(pessoaUserService.consultaCnpjReceitaWS(cnpj), HttpStatus.OK);
+		
+	}
 
 	@ResponseBody
 	@PostMapping(value = "/salvarPj")
@@ -100,6 +109,10 @@ public class PessoaController {
 
 		if (pessoaJuridica == null) {
 			throw new LojaVirtualException("Pessoa juridica nao pode ser NULL");
+		}
+		
+		if (pessoaJuridica.getTipoPessoa() == null) {
+			throw new LojaVirtualException("Informe o tipo Jurídico ou Fornecedor da Loja");
 		}
 
 		if (pessoaJuridica.getId() == null

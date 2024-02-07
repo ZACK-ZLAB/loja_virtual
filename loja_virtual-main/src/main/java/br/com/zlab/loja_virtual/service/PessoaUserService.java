@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 import br.com.zlab.loja_virtual.config.JwtService;
 import br.com.zlab.loja_virtual.exception.dto.CepDTO;
+import br.com.zlab.loja_virtual.exception.dto.ConsultaCnpjDto;
 import br.com.zlab.loja_virtual.model.PessoaFisica;
 import br.com.zlab.loja_virtual.model.PessoaJuridica;
 import br.com.zlab.loja_virtual.model.Usuario;
@@ -179,6 +180,10 @@ public class PessoaUserService {
 	
 	public CepDTO consultaCep(String cep) {
 		return new RestTemplate().getForEntity("https://viacep.com.br/ws/"+ cep +"/json/", CepDTO.class).getBody();
+	}
+	
+	public ConsultaCnpjDto consultaCnpjReceitaWS(String cnpj) {
+		return new RestTemplate().getForEntity("https://receitaws.com.br/v1/cnpj/" + cnpj, ConsultaCnpjDto.class).getBody();
 	}
 
 	private void saveUserToken(Usuario user, String jwtToken) {
