@@ -1,5 +1,7 @@
 package br.com.zlab.loja_virtual.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +19,10 @@ import br.com.zlab.loja_virtual.model.Endereco;
 import br.com.zlab.loja_virtual.model.PessoaFisica;
 import br.com.zlab.loja_virtual.model.PessoaJuridica;
 import br.com.zlab.loja_virtual.repository.EnderecoRepository;
+import br.com.zlab.loja_virtual.repository.PesssoaFisicaRepository;
 import br.com.zlab.loja_virtual.repository.PesssoaRepository;
 import br.com.zlab.loja_virtual.service.PessoaUserService;
+import br.com.zlab.loja_virtual.service.ServiceContagemAcessoApi;
 import br.com.zlab.loja_virtual.util.ValidaCNPJ;
 import br.com.zlab.loja_virtual.util.ValidaCPF;
 import jakarta.mail.MessagingException;
@@ -35,7 +39,54 @@ public class PessoaController {
 	
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	
+	@Autowired
+	private PesssoaFisicaRepository pesssoaFisicaRepository;
+	
+	@Autowired
+	private ServiceContagemAcessoApi serviceContagemAcessoApi;
+	
+	
 
+	
+	@ResponseBody
+	@GetMapping(value = "/consultaPfNome/{nome}")
+	public ResponseEntity<List<PessoaFisica>> consultaPfNome(@PathVariable("nome") String nome) {
+		
+		List<PessoaFisica> fisicas = pesssoaFisicaRepository.pesquisaPorNomePF(nome.trim().toUpperCase());
+		
+		serviceContagemAcessoApi.atualizaAcessoEndPointPF();
+		
+		return new ResponseEntity<List<PessoaFisica>>(fisicas, HttpStatus.OK);
+	}
+	
+	@ResponseBody
+	@GetMapping(value = "/consultaPfCpf/{cpf}")
+	public ResponseEntity<List<PessoaFisica>> consultaPfCpf(@PathVariable("cpf") String cpf) {
+		
+		List<PessoaFisica> fisicas = pesssoaFisicaRepository.pesquisaPorCpfPF(cpf);
+		
+		return new ResponseEntity<List<PessoaFisica>>(fisicas, HttpStatus.OK);
+	}
+	
+	@ResponseBody
+	@GetMapping(value = "/consultaNomePJ/{nome}")
+	public ResponseEntity<List<PessoaJuridica>> consultaNomePJ(@PathVariable("nome") String nome) {
+		
+		List<PessoaJuridica> fisicas = pesssoaRepository.pesquisaPorNomePJ(nome.trim().toUpperCase());
+		
+		return new ResponseEntity<List<PessoaJuridica>>(fisicas, HttpStatus.OK);
+	}
+	
+	@ResponseBody
+	@GetMapping(value = "/consultaCnpjPJ/{cnpj}")
+	public ResponseEntity<List<PessoaJuridica>> consultaCnpjPJ(@PathVariable("cnpj") String cnpj) {
+		
+		List<PessoaJuridica> fisicas = pesssoaRepository.existeCnpjCadastradoList(cnpj.trim().toUpperCase());
+		
+		return new ResponseEntity<List<PessoaJuridica>>(fisicas, HttpStatus.OK);
+	}
+	
 	@ResponseBody
 	@GetMapping(value = "/consultaCep/{cep}")
 	public ResponseEntity<CepDTO> consultaCep(@PathVariable("cep") String cep) {
