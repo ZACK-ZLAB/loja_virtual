@@ -52,7 +52,7 @@ public class AcessoController {
 
 		acessoRepository.deleteById(acesso.getId());
 
-		return new ResponseEntity("Acesso Removido", HttpStatus.OK);
+		return new ResponseEntity<String>("Acesso Removido", HttpStatus.OK);
 	}
 
 	// @Secured({ "ROLE_GERENTE", "ROLE_ADMIN" })
@@ -62,7 +62,7 @@ public class AcessoController {
 
 		acessoRepository.deleteById(id);
 
-		return new ResponseEntity("Acesso Removido", HttpStatus.OK);
+		return new ResponseEntity<String>("Acesso Removido", HttpStatus.OK);
 	}
 
 	@ResponseBody
