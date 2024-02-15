@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.zlab.loja_virtual.exception.handler.LojaVirtualException;
+import br.com.zlab.loja_virtual.model.ImagemProduto;
 import br.com.zlab.loja_virtual.model.Produto;
 import br.com.zlab.loja_virtual.repository.ProdutoRepository;
 import br.com.zlab.loja_virtual.service.EmailService;
@@ -156,12 +157,14 @@ public class ProdutoController {
 			html.append("<p> Id Prod.:").append(produto.getId()).append("</p>");
 			
 			if (produto.getEmpresa().getEmail() != null) {
-				serviceSendEmail.sendEmail(produto.getEmpresa().getEmail(),"Produto sem estoque" , html.toString());
-			}	
+				serviceSendEmail.sendEmail(produto.getEmpresa().getEmail(), "Produto sem estoque", html.toString());
+			}
 		}
 		
+		 
 		return new ResponseEntity<Produto>(produtoSalvo, HttpStatus.OK);
 	}
+
 	
 	
 	
