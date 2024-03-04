@@ -6,8 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import br.com.zlab.loja_virtual.dto.ObjetoErroDTO;
 import br.com.zlab.loja_virtual.exception.ErroDaApi;
-import br.com.zlab.loja_virtual.exception.dto.ObjetoErroDTO;
 
 @Component
 public class ErrorConverter {

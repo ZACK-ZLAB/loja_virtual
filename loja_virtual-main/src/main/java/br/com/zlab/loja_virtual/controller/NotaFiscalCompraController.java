@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.zlab.loja_virtual.exception.dto.ObejtoRequisicaoRelatorioProdCompraNotaFiscalDTO;
-import br.com.zlab.loja_virtual.exception.dto.ObejtoRequisicaoRelatorioProdutoAlertaEstoque;
-import br.com.zlab.loja_virtual.exception.dto.ObjetoRelatorioStatusCompra;
+import br.com.zlab.loja_virtual.dto.ObejtoRequisicaoRelatorioProdCompraNotaFiscalDTO;
+import br.com.zlab.loja_virtual.dto.ObejtoRequisicaoRelatorioProdutoAlertaEstoque;
+import br.com.zlab.loja_virtual.dto.ObjetoRelatorioStatusCompra;
 import br.com.zlab.loja_virtual.exception.handler.LojaVirtualException;
 import br.com.zlab.loja_virtual.model.NotaFiscalCompra;
 import br.com.zlab.loja_virtual.model.NotaFiscalVenda;

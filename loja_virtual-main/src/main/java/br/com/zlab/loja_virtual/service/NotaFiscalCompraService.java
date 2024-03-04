@@ -8,9 +8,9 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import br.com.zlab.loja_virtual.exception.dto.ObejtoRequisicaoRelatorioProdCompraNotaFiscalDTO;
-import br.com.zlab.loja_virtual.exception.dto.ObejtoRequisicaoRelatorioProdutoAlertaEstoque;
-import br.com.zlab.loja_virtual.exception.dto.ObjetoRelatorioStatusCompra;
+import br.com.zlab.loja_virtual.dto.ObejtoRequisicaoRelatorioProdCompraNotaFiscalDTO;
+import br.com.zlab.loja_virtual.dto.ObejtoRequisicaoRelatorioProdutoAlertaEstoque;
+import br.com.zlab.loja_virtual.dto.ObjetoRelatorioStatusCompra;
 
 @Service
 public class NotaFiscalCompraService {
@@ -71,7 +71,7 @@ public class NotaFiscalCompraService {
 	 * @param dataInicio e dataFinal são parametros obrigatórios
 	 * @return List<ObejtoRequisicaoRelatorioProdCompraNotaFiscalDTO>
 	 * 
-	 * @author alex_
+	 * @author zlab
 	 */
 	public List<ObejtoRequisicaoRelatorioProdCompraNotaFiscalDTO> gerarRelatorioProdCompraNota(
 			ObejtoRequisicaoRelatorioProdCompraNotaFiscalDTO obejtoRequisicaoRelatorioProdCompraNotaFiscalDto) {

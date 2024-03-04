@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import br.com.zlab.loja_virtual.enums.TipoEndereco;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;
@@ -60,6 +61,20 @@ public abstract class Pessoa implements Serializable {
 	@JoinColumn(name = "empresa_id", nullable = true, 
 	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
 	private Pessoa empresa;
+	
+	public Endereco enderecoEntrega() {
+		
+		Endereco enderecoReturn = null;
+		
+		for (Endereco endereco : enderecos) {
+			if (endereco.getTipoEndereco().name().equals(TipoEndereco.ENTREGA.name())) {
+				enderecoReturn = endereco;
+				break;
+			}
+		}
+		
+		return enderecoReturn;
+	}
 
 
 	public Long getId() {

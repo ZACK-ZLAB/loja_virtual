@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.zlab.loja_virtual.dto.CepDTO;
+import br.com.zlab.loja_virtual.dto.ConsultaCnpjDto;
 import br.com.zlab.loja_virtual.enums.TipoPessoa;
-import br.com.zlab.loja_virtual.exception.dto.CepDTO;
-import br.com.zlab.loja_virtual.exception.dto.ConsultaCnpjDto;
 import br.com.zlab.loja_virtual.exception.handler.LojaVirtualException;
 import br.com.zlab.loja_virtual.model.Endereco;
 import br.com.zlab.loja_virtual.model.PessoaFisica;

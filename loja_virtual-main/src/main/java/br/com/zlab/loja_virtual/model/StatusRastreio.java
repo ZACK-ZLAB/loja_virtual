@@ -2,6 +2,8 @@ package br.com.zlab.loja_virtual.model;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
@@ -28,20 +30,15 @@ public class StatusRastreio implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_status_rastreio")
 	private Long id;
 
-	private String centroDistribuicao;
+	private String urlRastreio;
 
-	private String cidade;
-
-	private String estado;
-
-	private String status;
-
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "venda_compra_loja_virt_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "venda_compra_loja_virt_fk"))
 	private VendaCompraLojaVirtual vendaCompraLojaVirtual;
 
-	@ManyToOne(targetEntity = Pessoa.class)
+	@JsonIgnore
+	@ManyToOne(targetEntity = PessoaJuridica.class)
 	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
-	private Pessoa empresa;
-
+	private PessoaJuridica empresa;
 }

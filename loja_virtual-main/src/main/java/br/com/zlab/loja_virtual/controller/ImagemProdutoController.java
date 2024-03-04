@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.zlab.loja_virtual.exception.dto.ImagemProdutoDTO;
+import br.com.zlab.loja_virtual.dto.ImagemProdutoDTO;
 import br.com.zlab.loja_virtual.model.ImagemProduto;
 import br.com.zlab.loja_virtual.repository.ImagemProdutoRepository;
 

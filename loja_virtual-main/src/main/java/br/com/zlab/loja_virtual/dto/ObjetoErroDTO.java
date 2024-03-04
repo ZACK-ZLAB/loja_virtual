@@ -1,4 +1,4 @@
-package br.com.zlab.loja_virtual.exception.dto;
+package br.com.zlab.loja_virtual.dto;
 
 import java.io.Serializable;
 import java.util.List;

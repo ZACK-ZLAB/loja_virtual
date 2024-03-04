@@ -25,12 +25,12 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
 
+import br.com.zlab.loja_virtual.dto.ObjetoErroDTO;
 import br.com.zlab.loja_virtual.exception.BusinessException;
 import br.com.zlab.loja_virtual.exception.ConverterException;
 import br.com.zlab.loja_virtual.exception.ErroDaApi;
 import br.com.zlab.loja_virtual.exception.IntegracaoException;
 import br.com.zlab.loja_virtual.exception.RegistroNaoEncontradoException;
-import br.com.zlab.loja_virtual.exception.dto.ObjetoErroDTO;
 import br.com.zlab.loja_virtual.service.EmailService;
 import jakarta.mail.MessagingException;
 import jakarta.validation.ConstraintViolationException;
