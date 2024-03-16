@@ -80,4 +80,8 @@ public interface Vd_Cp_Loja_virt_repository extends JpaRepository<VendaCompraLoj
 	@Modifying(flushAutomatically = true)
 	@Query(nativeQuery = true, value = "update vd_cp_loja_virt set url_imprime_etiqueta = ?1 where id = ?2")
 	void updateURLEtiqueta(String urlEtiqueta, Long id);
+	
+	@Modifying(flushAutomatically = true)
+	@Query(nativeQuery = true, value = "update vd_cp_loja_virt set status_venda_loja_virtual = 'FINALIZADA' where id = ?1")
+	void updatefinalizaVenda( Long id);
 }

@@ -65,6 +65,10 @@ public class ServiceJunoBoleto implements Serializable {
 				.put(ClientResponse.class);
 		
 		if (clientResponse.getStatus() == 204) {
+			
+			boletoJunoRepository.deleteByCode(code);
+			
+			
 			return "Cancelado com sucesso";
 		}
 		

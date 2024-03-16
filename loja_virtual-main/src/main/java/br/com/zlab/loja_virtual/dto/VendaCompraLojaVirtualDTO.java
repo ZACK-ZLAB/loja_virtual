@@ -13,9 +13,9 @@ public class VendaCompraLojaVirtualDTO {
 
 	private Long id;
 
-	private BigDecimal valorTotal;
+	private BigDecimal valorTotal = BigDecimal.ZERO;
 
-	private BigDecimal valorDesc;
+	private BigDecimal valorDesc = BigDecimal.ZERO;
 
 	private Pessoa pessoa;
 
@@ -23,7 +23,7 @@ public class VendaCompraLojaVirtualDTO {
 
 	private Endereco entrega;
 
-	private BigDecimal valorFrete;
+	private BigDecimal valorFrete = BigDecimal.ZERO;
 
 	private List<ItemVendaDTO> itemVendaLoja = new ArrayList<ItemVendaDTO>();
 }

@@ -64,7 +64,7 @@ public class BoletoJuno implements Serializable {
 	@Column(columnDefinition = "text")
 	private String imageInBase64 = "";
 
-	private String chargeICartao = "";
+	private String chargeIdCartao = "";
 
 	@ManyToOne
 	@JoinColumn(name = "venda_compra_loja_virt_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "venda_compra_loja_virt_fk"))

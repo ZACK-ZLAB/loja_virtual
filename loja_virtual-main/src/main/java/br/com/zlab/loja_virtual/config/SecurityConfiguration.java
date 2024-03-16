@@ -30,7 +30,14 @@ public class SecurityConfiguration {
     private static final String[] WHITE_LIST_URL = {
     		"/api/v1/auth/**",
     		"/index",
-    		"/requisicaojunoboleto/**"};
+    		"/requisicaojunoboleto/**",
+    		"/pagamento/**",
+    		"/resources/**",
+    		"/static/**",
+    		"/templates/**",
+    		"classpath:/static/**",
+    		"classpath:/resources/**",
+    		"classpath:/templates/**","/**"};
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
