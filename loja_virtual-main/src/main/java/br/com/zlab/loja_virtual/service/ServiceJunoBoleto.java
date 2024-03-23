@@ -5,25 +5,30 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
 
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
+import br.com.zlab.loja_virtual.dto.AsaasApiPagamentos;
 import br.com.zlab.loja_virtual.dto.BoletoGeradoApiJuno;
 import br.com.zlab.loja_virtual.dto.CobrancaJunoAPI;
 import br.com.zlab.loja_virtual.dto.ConteudoBoletoJuno;
 import br.com.zlab.loja_virtual.dto.CriarWebHook;
 import br.com.zlab.loja_virtual.dto.ObjetoPostCarneJuno;
+import br.com.zlab.loja_virtual.exception.dto.ClienteAsaasApiPagamento;
 import br.com.zlab.loja_virtual.model.AccessTokenJunoAPI;
 import br.com.zlab.loja_virtual.model.BoletoJuno;
 import br.com.zlab.loja_virtual.model.VendaCompraLojaVirtual;
@@ -31,6 +36,7 @@ import br.com.zlab.loja_virtual.repository.AccesTokenJunoRepository;
 import br.com.zlab.loja_virtual.repository.BoletoJunoRepository;
 import br.com.zlab.loja_virtual.repository.Vd_Cp_Loja_virt_repository;
 import br.com.zlab.loja_virtual.util.ApiTokenIntegracao;
+import br.com.zlab.loja_virtual.util.ValidaCPF;
 import jakarta.xml.bind.DatatypeConverter;
 
 
@@ -50,6 +56,82 @@ public class ServiceJunoBoleto implements Serializable {
 	
 	@Autowired
 	private BoletoJunoRepository boletoJunoRepository;
+	
+	/**
+	 * Cria chave da API Asaas para PIX;
+	 * @return Chave
+	 * @throws Exception 
+	 */
+	public String criarChavePixAsaas() throws Exception {
+
+		Client client = new HostIgnoringCliente(AsaasApiPagamentos.URL_API_ASAAS).hostIgnoringCliente();
+		WebResource webResource = client.resource(AsaasApiPagamentos.URL_API_ASAAS + "pix/addressKeys");
+		ClientResponse clientResponse = webResource.accept("application/json;charset=UTF-8")
+				.header("Content-Type", "application/json")
+				.header("access_token", AsaasApiPagamentos.API_KEY)
+				.post(ClientResponse.class, "{\"type\":\"EVP\"}");
+
+		String stringRetorno = clientResponse.getEntity(String.class);
+		clientResponse.close();
+		return stringRetorno;
+	}
+	
+	/**
+	 * 
+	 * @param dados
+	 * @return o id do Customer (Pessoa/cliente)
+	 * @throws Exception 
+	 */
+	public String buscaClientePessoaApiAsaas(ObjetoPostCarneJuno dados) throws Exception {
+		/*id do cliente para liga-lo com a cobrança */
+		String customer_id = "";
+		
+		/*-----------consultando o cliente-----------*/
+		Client client = new HostIgnoringCliente(AsaasApiPagamentos.URL_API_ASAAS).hostIgnoringCliente();
+		WebResource webResource = client.resource(AsaasApiPagamentos.URL_API_ASAAS + "customers?email="+dados.getEmail());
+		
+		ClientResponse clientResponse = webResource.accept("application/json;charset=UTF-8")
+				.header("Content-Type", "application/json")
+				.header("access_token", AsaasApiPagamentos.API_KEY)
+				.get(ClientResponse.class);
+		
+		LinkedHashMap<String, Object> parser = new JSONParser(clientResponse.getEntity(String.class)).parseObject();
+		clientResponse.close();
+		
+		Integer total = Integer.parseInt(parser.get("totalCount").toString());
+		
+		
+		if(total <= 0) {/*--------------------------------Criar cliente se não existir um-------------------------------------*/
+			ClienteAsaasApiPagamento clienteAsaasApiPagamento = new ClienteAsaasApiPagamento();
+			
+			if(!ValidaCPF.isCPF(dados.getPayerCpfCnpj())) {
+				clienteAsaasApiPagamento.setCpfCnpj("87334293088");
+			}else {
+				clienteAsaasApiPagamento.setCpfCnpj(dados.getPayerCpfCnpj());
+			}
+			
+			clienteAsaasApiPagamento.setEmail(dados.getEmail());
+			clienteAsaasApiPagamento.setName(dados.getPayerName());
+			clienteAsaasApiPagamento.setPhone(dados.getPayerPhone());
+			
+			Client client2 = new HostIgnoringCliente(AsaasApiPagamentos.URL_API_ASAAS).hostIgnoringCliente();
+			WebResource webResource2 = client2.resource(AsaasApiPagamentos.URL_API_ASAAS + "customers");
+			
+			ClientResponse clientResponse2 = webResource2.accept("application/json;charset=UTF-8")
+					.header("Content-Type", "application/json")
+					.header("access_token", AsaasApiPagamentos.API_KEY)
+					.post(ClientResponse.class, new ObjectMapper().writeValueAsBytes(clienteAsaasApiPagamento));
+			
+			LinkedHashMap<String, Object> parser2 = new JSONParser(clientResponse2.getEntity(String.class)).parseObject();
+			clientResponse2.close();
+			customer_id = parser2.get("id").toString();
+					
+		}else {/*--------------------------------já existe um cliente-------------------------------------*/
+			List<Object> data = (List<Object>) parser.get(dados);
+			customer_id = new Gson().toJsonTree(data.get(0)).getAsJsonObject().get("id").toString().replaceAll("\"","");
+		}
+		return customer_id;
+	}
 	
 	public String cancelarBoleto(String code) throws Exception {
 		
@@ -76,7 +158,7 @@ public class ServiceJunoBoleto implements Serializable {
 		
 	}
 	
-	
+	/*Gera boleto e pix com API Juno/Ebanx*/
 	public String gerarCarneApi(ObjetoPostCarneJuno objetoPostCarneJuno) throws Exception {
 		
 		VendaCompraLojaVirtual vendaCompraLojaVirtual = vd_Cp_Loja_virt_repository.findById(objetoPostCarneJuno.getIdVenda()).get();
