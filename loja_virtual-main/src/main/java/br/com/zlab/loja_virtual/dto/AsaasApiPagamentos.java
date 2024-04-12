@@ -13,6 +13,6 @@ public class AsaasApiPagamentos {
 	
 	public static String URL_API_ASAAS = "https://www.asaas.com/api/v3/";
 	public static String URL_API_ASAAS_SANDBOX = "https://sandbox.asaas.com/api/v3";
-	public static String API_KEY = "$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDA0MDQyODI6OiRhYWNoX2U0NmFiNGJkLWJjMjMtNDBiZC05ZWRkLTM4MWFmNTEyZGRkMw==";
+	public static String API_KEY = "$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDA0MDQyODI6OiRhYWNoX2Q0NTllNDQ0LWE1MjYtNDM0MC1iZTRjLWU3NzM2NDAxZjYxMw==";
 
 }

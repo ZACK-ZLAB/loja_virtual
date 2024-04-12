@@ -6,6 +6,7 @@ import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +26,24 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
+import br.com.zlab.loja_virtual.dto.AsaasApiPagamentos;
 import br.com.zlab.loja_virtual.dto.BoletoGeradoApiJuno;
+import br.com.zlab.loja_virtual.dto.CartaoCreditoApiAsaas;
+import br.com.zlab.loja_virtual.dto.CartaoCreditoAsaasHolderInfo;
+import br.com.zlab.loja_virtual.dto.CobrancaApiAsaasCartao;
+import br.com.zlab.loja_virtual.dto.CobrancaGeradaCartaoCreditoAsaas;
 import br.com.zlab.loja_virtual.dto.CobrancaJunoAPI;
 import br.com.zlab.loja_virtual.dto.ConteudoBoletoJuno;
+import br.com.zlab.loja_virtual.dto.ErroResponseApiAsaas;
 import br.com.zlab.loja_virtual.dto.ErroResponseApiJuno;
+import br.com.zlab.loja_virtual.dto.ObjetoPostCarneJuno;
 import br.com.zlab.loja_virtual.dto.PagamentoCartaoCredito;
 import br.com.zlab.loja_virtual.dto.PaymentsCartaoCredito;
 import br.com.zlab.loja_virtual.dto.RetornoPagamentoCartaoJuno;
 import br.com.zlab.loja_virtual.dto.VendaCompraLojaVirtualDTO;
 import br.com.zlab.loja_virtual.model.AccessTokenJunoAPI;
 import br.com.zlab.loja_virtual.model.BoletoJuno;
+import br.com.zlab.loja_virtual.model.PessoaFisica;
 import br.com.zlab.loja_virtual.model.VendaCompraLojaVirtual;
 import br.com.zlab.loja_virtual.repository.BoletoJunoRepository;
 import br.com.zlab.loja_virtual.repository.Vd_Cp_Loja_virt_repository;
@@ -79,6 +88,179 @@ public class PagamentoController implements Serializable {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/finalizarCompraCartao")
+	public ResponseEntity<String> finalizarCompraCartaoAsaas(
+			@RequestParam("cardNumber") String cardNumber,
+			@RequestParam("holderName") String holderName,
+			@RequestParam("securityCode") String securityCode,
+			@RequestParam("expirationMonth") String expirationMonth,
+			@RequestParam("expirationYear") String expirationYear,
+			@RequestParam("idVendaCampo") Long idVendaCampo,
+			@RequestParam("cpf") String cpf,
+			@RequestParam("qtdparcela") Integer qtdparcela,
+			@RequestParam("cep") String cep,
+			@RequestParam("rua") String rua,
+			@RequestParam("numero") String numero,
+			@RequestParam("cidade") String cidade, 
+			@RequestParam("estado") String estado) throws Exception{
+		
+		VendaCompraLojaVirtual vendaCompraLojaVirtual = vd_Cp_Loja_virt_repository.
+				findById(idVendaCampo).orElse(null);
+		
+		if(vendaCompraLojaVirtual == null) {
+			return new ResponseEntity<String>("Código da venda não existe",HttpStatus.OK);
+		}
+		
+		String cpfLimpo = cpf.replace("\\", "").replaceAll("\\-", "");
+		
+		if(!ValidaCPF.isCPF(cpfLimpo)) {
+			return new ResponseEntity<String>("CPF informado é inválido",HttpStatus.OK);
+		}
+		
+		if(qtdparcela > 12 || qtdparcela <= 0) {
+			return new ResponseEntity<String>("A quantidade de parcelas deve ser dde 1 até 12.",HttpStatus.OK);
+		}
+		
+		if (vendaCompraLojaVirtual.getValorTotal().doubleValue() <= 0) {
+			return new ResponseEntity<String>("O valor da venda não pode ser zero(0).",HttpStatus.OK);
+		}
+		
+		List<BoletoJuno> cobrancas = boletoJunoRepository.cobrancaDaVendaCompra(idVendaCampo);
+
+		for (BoletoJuno boletoJuno : cobrancas) {
+		    boletoJunoRepository.deleteById(boletoJuno.getId());
+		    boletoJunoRepository.flush();
+		}
+
+		/* INICIO Gerando cobranca por cartão */
+		ObjetoPostCarneJuno carne = new ObjetoPostCarneJuno();
+		carne.setPayerCpfCnpj(cpfLimpo);
+		carne.setPayerName(holderName);
+		carne.setPayerPhone(vendaCompraLojaVirtual.getPessoa().getTelefone());
+
+		CobrancaApiAsaasCartao cobrancaApiAsaasCartao = new CobrancaApiAsaasCartao();
+		cobrancaApiAsaasCartao.setCustomer(serviceJunoBoleto.buscaClientePessoaApiAsaas(carne));
+		cobrancaApiAsaasCartao.setBillingType(AsaasApiPagamentos.CREDIT_CARD);
+		cobrancaApiAsaasCartao.setDescription("Venda realizada para cliente por cartão de crédito: ID Venda ->" + idVendaCampo);
+
+		if (qtdparcela == 1) {
+		    cobrancaApiAsaasCartao.setInstallmentValue(vendaCompraLojaVirtual.getValorTotal().floatValue());
+		} else {
+		    BigDecimal valorParcela = vendaCompraLojaVirtual.getValorTotal()
+		        .divide(BigDecimal.valueOf(qtdparcela), RoundingMode.DOWN)
+		        .setScale(2, RoundingMode.DOWN);
+		    cobrancaApiAsaasCartao.setInstallmentValue(valorParcela.floatValue());
+		}
+
+		cobrancaApiAsaasCartao.setInstallmentCount(qtdparcela);
+		cobrancaApiAsaasCartao.setDueDate(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
+
+		/* Dados cartão de crédito */
+		CartaoCreditoApiAsaas creditCard = new CartaoCreditoApiAsaas();
+		creditCard.setCcv(securityCode);
+		creditCard.setExpiryMonth(expirationMonth);
+		creditCard.setExpiryYear(expirationYear);
+		creditCard.setHolderName(holderName);
+		creditCard.setNumber(cardNumber);
+
+		cobrancaApiAsaasCartao.setCreditCard(creditCard);
+		
+		PessoaFisica pessoaFisica = vendaCompraLojaVirtual.getPessoa();
+
+		CartaoCreditoAsaasHolderInfo creditCardHolderInfo = new CartaoCreditoAsaasHolderInfo();
+		creditCardHolderInfo.setName(pessoaFisica.getNome());
+		creditCardHolderInfo.setEmail(pessoaFisica.getEmail());
+		creditCardHolderInfo.setCpfCnpj(pessoaFisica.getCpf());
+		creditCardHolderInfo.setPostalCode(cep);
+		creditCardHolderInfo.setAddressNumber(numero);
+		creditCardHolderInfo.setAddressComplement(null);
+		creditCardHolderInfo.setPhone(pessoaFisica.getTelefone());
+		creditCardHolderInfo.setMobilePhone(pessoaFisica.getTelefone());
+		
+		cobrancaApiAsaasCartao.setCreditCardHolderInfo(creditCardHolderInfo);
+
+		String json = new ObjectMapper().writeValueAsString(cobrancaApiAsaasCartao);
+
+		Client client = new HostIgnoringCliente(AsaasApiPagamentos.URL_API_ASAAS).hostIgnoringCliente();
+		WebResource webResource = client.resource(AsaasApiPagamentos.URL_API_ASAAS + "payments");
+
+		ClientResponse clientResponse = webResource
+		        .accept("application/json; charset=UTF-8")
+		        .header("Content-Type", "application/json; charset=UTF-8")
+		        .header("access_token", AsaasApiPagamentos.API_KEY)
+		        .post(ClientResponse.class, json);
+		
+		String stringRetorno = clientResponse.getEntity(String.class);
+		int status = clientResponse.getStatus();
+		clientResponse.close();
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+		objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+
+		if (status != 200) {/*treatment of errors*/
+			
+			for (BoletoJuno boletoJuno : cobrancas) {
+			    boletoJunoRepository.deleteById(boletoJuno.getId());
+			    boletoJunoRepository.flush();
+			}
+			
+			ErroResponseApiAsaas apiAsaas = objectMapper
+					.readValue(stringRetorno, new TypeReference<ErroResponseApiAsaas>() {});
+			
+			return new ResponseEntity<String>("Erro ao efetuar cobrança" + apiAsaas.listaErros(), HttpStatus.OK);
+		}
+		
+		CobrancaGeradaCartaoCreditoAsaas cartaoCredito = objectMapper.
+				readValue(stringRetorno, new TypeReference<CobrancaGeradaCartaoCreditoAsaas>() {});
+			
+		int recorrencia = 1;
+		List<BoletoJuno> boletoJunos = new ArrayList<BoletoJuno>();
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date dataCobranca = dateFormat.parse(cartaoCredito.getDueDate());
+		Calendar calendar = Calendar.getInstance();
+		
+		
+		for (int p = 1; p <= qtdparcela; p++) {
+			
+			BoletoJuno boletoJuno = new BoletoJuno();
+			boletoJuno.setChargeIdCartao(cartaoCredito.getId());
+			boletoJuno.setCheckoutUrl(cartaoCredito.getInvoiceUrl());
+			boletoJuno.setCode(cartaoCredito.getId());
+			boletoJuno.setDataVencimento(dateFormat.format(dataCobranca));
+			calendar.setTime(dataCobranca);
+			
+			calendar.add(Calendar.MONTH, 1);
+			dataCobranca = calendar.getTime();
+			boletoJuno.setEmpresa(vendaCompraLojaVirtual.getEmpresa());
+			boletoJuno.setIdChrBoleto(cartaoCredito.getId());
+			boletoJuno.setIdPix(cartaoCredito.getId());
+			boletoJuno.setInstallmentLink(cartaoCredito.getInvoiceUrl());
+			boletoJuno.setQuitado(false);
+			
+			boletoJuno.setRecorrencia(recorrencia);
+			boletoJuno.setValor(BigDecimal.valueOf(cobrancaApiAsaasCartao.getInstallmentValue()));
+			boletoJuno.setVendaCompraLojaVirtual(vendaCompraLojaVirtual);
+			
+			recorrencia++;
+		    boletoJunos.add(boletoJuno);
+		}
+		
+		boletoJunoRepository.saveAllAndFlush(boletoJunos);
+		
+		if(cartaoCredito.getStatus().equalsIgnoreCase("CONFIRMED")) {
+			for (BoletoJuno boletoJuno : boletoJunos) {
+				boletoJunoRepository.quitarBoletoById(boletoJuno.getId());
+			}
+			vd_Cp_Loja_virt_repository.updatefinalizaVenda(vendaCompraLojaVirtual.getId());
+			return new ResponseEntity<String>("sucesso",HttpStatus.OK);
+		}else {
+			return new ResponseEntity<String>("payment error : Status: " + cartaoCredito.getStatus(),HttpStatus.OK);
+		}
+
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/finalizarCompraCartaoJuno")
 	public ResponseEntity<String> finalizarCompraCartao(
 			@RequestParam("cardHash") String cardHash,
 			@RequestParam("cardNumber") String cardNumber,

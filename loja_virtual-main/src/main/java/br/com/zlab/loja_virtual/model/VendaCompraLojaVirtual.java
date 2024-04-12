@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -36,8 +37,6 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Table(name = "vd_cp_loja_virt")
 @SequenceGenerator(name = "seq_vd_cp_loja_virt", sequenceName = "seq_vd_cp_loja_virt", allocationSize = 1, initialValue = 1)
-@Data
-@EqualsAndHashCode
 public class VendaCompraLojaVirtual implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -124,5 +123,182 @@ public class VendaCompraLojaVirtual implements Serializable {
 	private String servicoTransportadora;
 	
 	private Boolean excluido = Boolean.FALSE;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public PessoaFisica getPessoa() {
+		return pessoa;
+	}
+
+	public void setPessoa(PessoaFisica pessoa) {
+		this.pessoa = pessoa;
+	}
+
+	public Endereco getEnderecoEntrega() {
+		return enderecoEntrega;
+	}
+
+	public void setEnderecoEntrega(Endereco enderecoEntrega) {
+		this.enderecoEntrega = enderecoEntrega;
+	}
+
+	public Endereco getEnderecoCobranca() {
+		return enderecoCobranca;
+	}
+
+	public void setEnderecoCobranca(Endereco enderecoCobranca) {
+		this.enderecoCobranca = enderecoCobranca;
+	}
+
+	public BigDecimal getValorTotal() {
+		return valorTotal;
+	}
+
+	public void setValorTotal(BigDecimal valorTotal) {
+		this.valorTotal = valorTotal;
+	}
+
+	public BigDecimal getValorDesconto() {
+		return valorDesconto;
+	}
+
+	public void setValorDesconto(BigDecimal valorDesconto) {
+		this.valorDesconto = valorDesconto;
+	}
+
+	public FormaPagamento getFormaPagamento() {
+		return formaPagamento;
+	}
+
+	public void setFormaPagamento(FormaPagamento formaPagamento) {
+		this.formaPagamento = formaPagamento;
+	}
+
+	public NotaFiscalVenda getNotaFiscalVenda() {
+		return notaFiscalVenda;
+	}
+
+	public void setNotaFiscalVenda(NotaFiscalVenda notaFiscalVenda) {
+		this.notaFiscalVenda = notaFiscalVenda;
+	}
+
+	public CupDesc getCupDesc() {
+		return cupDesc;
+	}
+
+	public void setCupDesc(CupDesc cupDesc) {
+		this.cupDesc = cupDesc;
+	}
+
+	public BigDecimal getValorFret() {
+		return valorFret;
+	}
+
+	public void setValorFret(BigDecimal valorFret) {
+		this.valorFret = valorFret;
+	}
+
+	public Integer getDiaEntrega() {
+		return diaEntrega;
+	}
+
+	public void setDiaEntrega(Integer diaEntrega) {
+		this.diaEntrega = diaEntrega;
+	}
+
+	public Date getDataVenda() {
+		return dataVenda;
+	}
+
+	public void setDataVenda(Date dataVenda) {
+		this.dataVenda = dataVenda;
+	}
+
+	public Date getDataEntrega() {
+		return dataEntrega;
+	}
+
+	public void setDataEntrega(Date dataEntrega) {
+		this.dataEntrega = dataEntrega;
+	}
+
+	public PessoaJuridica getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(PessoaJuridica empresa) {
+		this.empresa = empresa;
+	}
+
+	public StatusVendaLojaVirtual getStatusVendaLojaVirtual() {
+		return statusVendaLojaVirtual;
+	}
+
+	public void setStatusVendaLojaVirtual(StatusVendaLojaVirtual statusVendaLojaVirtual) {
+		this.statusVendaLojaVirtual = statusVendaLojaVirtual;
+	}
+
+	public List<ItemVendaLoja> getItemVendaLojas() {
+		return itemVendaLojas;
+	}
+
+	public void setItemVendaLojas(List<ItemVendaLoja> itemVendaLojas) {
+		this.itemVendaLojas = itemVendaLojas;
+	}
+
+	public String getCodigoEtiqueta() {
+		return codigoEtiqueta;
+	}
+
+	public void setCodigoEtiqueta(String codigoEtiqueta) {
+		this.codigoEtiqueta = codigoEtiqueta;
+	}
+
+	public String getUrlImprimeEtiqueta() {
+		return urlImprimeEtiqueta;
+	}
+
+	public void setUrlImprimeEtiqueta(String urlImprimeEtiqueta) {
+		this.urlImprimeEtiqueta = urlImprimeEtiqueta;
+	}
+
+	public String getServicoTransportadora() {
+		return servicoTransportadora;
+	}
+
+	public void setServicoTransportadora(String servicoTransportadora) {
+		this.servicoTransportadora = servicoTransportadora;
+	}
+
+	public Boolean getExcluido() {
+		return excluido;
+	}
+
+	public void setExcluido(Boolean excluido) {
+		this.excluido = excluido;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		VendaCompraLojaVirtual other = (VendaCompraLojaVirtual) obj;
+		return Objects.equals(id, other.id);
+	}
 
 }

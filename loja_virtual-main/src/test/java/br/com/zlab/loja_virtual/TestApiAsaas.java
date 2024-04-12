@@ -18,6 +18,21 @@ public class TestApiAsaas {
 	private ServiceJunoBoleto serviceAsaas;
 	
 	@Test
+	public void testGerarCarnerApiAsaas() throws Exception {
+		ObjetoPostCarneJuno dados = new ObjetoPostCarneJuno();
+		dados.setEmail("junior88464.js@gmail.com");
+		dados.setPayerName("zacarias Santos");
+		dados.setPayerCpfCnpj("03620659346");
+		dados.setPayerPhone("89999944007");
+		dados.setIdVenda(1L);
+		
+		String retorno = serviceAsaas.gerarCarneApiAsaas(dados);
+				
+		System.out.println(retorno);
+	}
+	
+	
+	@Test
 	public void testcriarChavePixAsaas() throws Exception {
 		String chaveAPI = serviceAsaas.criarChavePixAsaas();
 		
