@@ -13,7 +13,7 @@ import br.com.zlab.loja_virtual.model.BoletoJuno;
 @Repository
 public interface BoletoJunoRepository extends JpaRepository<BoletoJuno, Long> {
 	
-	@Query("select b from BoletoJuno b where b.vendaCompralojaVirtual.id = ?1 and b.quitado = false")
+	@Query("SELECT b FROM BoletoJuno b WHERE b.vendaCompraLojaVirtual.id = ?1 AND b.quitado = false")
 	public List<BoletoJuno> cobrancaDaVendaCompra(Long idVendaCompra);
 
 	@Query("select b from BoletoJuno b where b.code = ?1")

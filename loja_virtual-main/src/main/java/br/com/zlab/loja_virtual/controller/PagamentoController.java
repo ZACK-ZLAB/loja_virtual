@@ -200,8 +200,11 @@ public class PagamentoController implements Serializable {
 		if (status != 200) {/*treatment of errors*/
 			
 			for (BoletoJuno boletoJuno : cobrancas) {
-			    boletoJunoRepository.deleteById(boletoJuno.getId());
-			    boletoJunoRepository.flush();
+				
+				if(boletoJunoRepository.existsById(boletoJuno.getId())) {
+					boletoJunoRepository.deleteById(boletoJuno.getId());
+					boletoJunoRepository.flush();
+				}
 			}
 			
 			ErroResponseApiAsaas apiAsaas = objectMapper
