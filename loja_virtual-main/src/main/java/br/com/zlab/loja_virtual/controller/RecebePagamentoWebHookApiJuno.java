@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.zlab.loja_virtual.dto.AttibutesNotificaoPagaApiJuno;
 import br.com.zlab.loja_virtual.dto.DataNotificacaoApiJunotPagamento;
+import br.com.zlab.loja_virtual.dto.NotificacaoPagamentoApiAsaas;
 import br.com.zlab.loja_virtual.model.BoletoJuno;
 import br.com.zlab.loja_virtual.repository.BoletoJunoRepository;
 
@@ -23,6 +25,30 @@ public class RecebePagamentoWebHookApiJuno implements Serializable {
 	
 	@Autowired
 	private BoletoJunoRepository boletoJunoRepository; 
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/notificacaoapiasaas", consumes = {"application/json; charset=UTF-8"}, 
+	              headers = "Content-Type=application/json; charset=UTF-8", method = RequestMethod.POST)
+	private ResponseEntity<String> recebeNotificacaoPagamentoApiAsaas(@RequestBody NotificacaoPagamentoApiAsaas notificacaoPagamentoApiAsaas) {
+	    BoletoJuno boletoJuno = boletoJunoRepository.findByCode(notificacaoPagamentoApiAsaas.idFatura());
+
+	    if (boletoJuno != null && notificacaoPagamentoApiAsaas.boletoPixFaturaPaga() && !boletoJuno.isQuitado()) {
+	        boletoJunoRepository.quitarBoletoById(boletoJuno.getId());
+	        System.out.println("Boleto: " + boletoJuno.getCode() + " foi quitado ");
+	        /**Fazendo qualquer regra de negocio que vc queira*/
+	        return new ResponseEntity<String>("Recebido do Asaas, boleto id: " + boletoJuno.getId(),HttpStatus.OK);
+	    } else {
+	        System.out.println("Fatura: "
+	       + notificacaoPagamentoApiAsaas.idFatura()
+	       + " não foi processada, quitada: "
+	       +notificacaoPagamentoApiAsaas.boletoPixFaturaPaga()
+	       + " valor quitado: " + boletoJuno.isQuitado());
+	    }
+
+	    return new ResponseEntity<String>("Não foi processada a fatura : " + notificacaoPagamentoApiAsaas.idFatura(), HttpStatus.OK);
+	}
+
 	
 	@ResponseBody
 	@RequestMapping(value = "/notificacaoapiv2", consumes = {"application/json;charset=UTF-8"},
