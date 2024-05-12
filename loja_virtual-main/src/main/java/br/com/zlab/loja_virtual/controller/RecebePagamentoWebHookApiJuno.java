@@ -32,6 +32,10 @@ public class RecebePagamentoWebHookApiJuno implements Serializable {
 	              headers = "Content-Type=application/json; charset=UTF-8", method = RequestMethod.POST)
 	private ResponseEntity<String> recebeNotificacaoPagamentoApiAsaas(@RequestBody NotificacaoPagamentoApiAsaas notificacaoPagamentoApiAsaas) {
 	    BoletoJuno boletoJuno = boletoJunoRepository.findByCode(notificacaoPagamentoApiAsaas.idFatura());
+	    
+	    if(boletoJuno == null ) {
+	    	return new ResponseEntity<String>("Boleto/Fatura não encontrada no banco de Dados",HttpStatus.OK);
+	    }
 
 	    if (boletoJuno != null && notificacaoPagamentoApiAsaas.boletoPixFaturaPaga() && !boletoJuno.isQuitado()) {
 	        boletoJunoRepository.quitarBoletoById(boletoJuno.getId());
