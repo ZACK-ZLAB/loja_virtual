@@ -44,6 +44,7 @@ public class TesteNotaFiscal extends TestCase {
         cliente.setNumero("356");
         cliente.setTelefone("45999795800");
         cliente.setUf("PR");
+        cliente.setNomeCompleto("José Zacarias dos Santos Junior");
 
         webManiaNotaFiscalEletronica.setCliente(cliente);
         
@@ -58,8 +59,8 @@ public class TesteNotaFiscal extends TestCase {
         produto.setUnidade("UN");
         produto.setPeso("0.800");
         produto.setOrigem(0);
-        produto.setSubtotal("5.400");
-        produto.setTotal("5.500");
+        produto.setSubtotal("5400");
+        produto.setTotal("5500");
         produto.setClasse_imposto("REF1000");
 
         webManiaNotaFiscalEletronica.getProdutos().add(produto);
@@ -69,9 +70,9 @@ public class TesteNotaFiscal extends TestCase {
         pedidoNF.setPagamento(0);
         pedidoNF.setPresenca(2);
         pedidoNF.setModalidade_frete(0);
-        pedidoNF.setFrete("100.00");
-        pedidoNF.setDesconto("20.00");
-        pedidoNF.setTotal("5.500");
+        pedidoNF.setFrete("100");
+        pedidoNF.setDesconto("20");
+        pedidoNF.setTotal("5500");
 
         webManiaNotaFiscalEletronica.setPedido(pedidoNF);
 
