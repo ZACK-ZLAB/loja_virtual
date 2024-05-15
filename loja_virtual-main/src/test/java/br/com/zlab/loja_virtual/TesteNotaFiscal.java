@@ -89,5 +89,12 @@ public class TesteNotaFiscal extends TestCase {
 
         System.out.println("--->> Retorno cancelamento nota fiscal: " + retorno);
     }
+    
+    @Test
+    public void consultarNota() throws Exception {
+        String retorno = webManiaNotaFiscalService.consultarNotaFiscal("93d9fd23-2389-4f50-b57f-b873471eda2c");
+
+        System.out.println("--->> Retorno consulta nota fiscal: " + retorno);
+    }
 
 }
