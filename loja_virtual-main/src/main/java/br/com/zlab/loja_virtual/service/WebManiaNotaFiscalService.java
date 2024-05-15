@@ -75,7 +75,13 @@ public class WebManiaNotaFiscalService {
     }
     
     public NotaFiscalVenda gravaNotaParaVenda(ObjetoEmissaoNotaFiscalWebMania emissaoNotaFiscalWebMania, VendaCompraLojaVirtual vendaCompraLojaVirtual) {
+    	NotaFiscalVenda notaFiscalVendaBusca = notaFiscalVendaRepository.buscaNotaPorVendaUnica(vendaCompraLojaVirtual.getId());
+    	
         NotaFiscalVenda notaFiscalVenda = new NotaFiscalVenda();
+        
+        if(notaFiscalVendaBusca != null && notaFiscalVendaBusca.getId() > 0) {
+        	notaFiscalVenda.setId(notaFiscalVendaBusca.getId());
+        }
 
         notaFiscalVenda.setEmpresa(vendaCompraLojaVirtual.getEmpresa());
         notaFiscalVenda.setNumero(emissaoNotaFiscalWebMania.getUuid());
