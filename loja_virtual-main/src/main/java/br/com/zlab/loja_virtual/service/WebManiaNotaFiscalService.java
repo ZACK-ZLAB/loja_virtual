@@ -1,5 +1,6 @@
 package br.com.zlab.loja_virtual.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,11 +8,17 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
+import br.com.zlab.loja_virtual.exception.dto.ObjetoEmissaoNotaFiscalWebMania;
 import br.com.zlab.loja_virtual.exception.dto.WebManiaNotaFiscalEletronica;
+import br.com.zlab.loja_virtual.model.NotaFiscalVenda;
+import br.com.zlab.loja_virtual.model.VendaCompraLojaVirtual;
+import br.com.zlab.loja_virtual.repository.NotaFiscalVendaRepository;
 
 @Service
 public class WebManiaNotaFiscalService {
 
+	@Autowired
+	private NotaFiscalVendaRepository notaFiscalVendaRepository;
 	
     public String emitirNotaFiscal(WebManiaNotaFiscalEletronica webManiaNotaFiscalEletronica) throws Exception {
         Client client = new HostIgnoringCliente("https://webmaniabr.com/api/").hostIgnoringCliente(); 
@@ -65,6 +72,20 @@ public class WebManiaNotaFiscalService {
         String stringRetorno = clientResponse.getEntity(String.class);
         
         return stringRetorno;
+    }
+    
+    public NotaFiscalVenda gravaNotaParaVenda(ObjetoEmissaoNotaFiscalWebMania emissaoNotaFiscalWebMania, VendaCompraLojaVirtual vendaCompraLojaVirtual) {
+        NotaFiscalVenda notaFiscalVenda = new NotaFiscalVenda();
+
+        notaFiscalVenda.setEmpresa(vendaCompraLojaVirtual.getEmpresa());
+        notaFiscalVenda.setNumero(emissaoNotaFiscalWebMania.getUuid());
+        notaFiscalVenda.setPdf(emissaoNotaFiscalWebMania.getDanfe());
+        notaFiscalVenda.setSerie(emissaoNotaFiscalWebMania.getSerie());
+        notaFiscalVenda.setTipo(emissaoNotaFiscalWebMania.getMotivo());
+        notaFiscalVenda.setVendaCompraLojaVirtual(vendaCompraLojaVirtual);
+        notaFiscalVenda.setXml(emissaoNotaFiscalWebMania.getXml());
+
+        return notaFiscalVendaRepository.saveAndFlush(notaFiscalVenda);
     }
 
 }

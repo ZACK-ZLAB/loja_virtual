@@ -19,9 +19,16 @@ public class TesteNotaFiscal extends TestCase {
     @Autowired
     private WebManiaNotaFiscalService webManiaNotaFiscalService;
 
+    public void testeGravaNotaNoBanco() throws Exception {
+    	String json = emiteNotaFiscal();
+    	
+    }
     @Test
     public void testeEmissaoNota() throws Exception {
-        WebManiaNotaFiscalEletronica webManiaNotaFiscalEletronica = new WebManiaNotaFiscalEletronica();
+        emiteNotaFiscal();
+    }
+	private String emiteNotaFiscal() throws Exception {
+		WebManiaNotaFiscalEletronica webManiaNotaFiscalEletronica = new WebManiaNotaFiscalEletronica();
 
         webManiaNotaFiscalEletronica.setID("1");
         webManiaNotaFiscalEletronica.setUrl_notificacao(""); /* WebHook */
@@ -79,7 +86,9 @@ public class TesteNotaFiscal extends TestCase {
 
         String retorno = webManiaNotaFiscalService.emitirNotaFiscal(webManiaNotaFiscalEletronica);
         System.out.println("---->> Retorno Emissão nota fiscal: " + retorno);
-    }
+        
+        return retorno;
+	}
     
     @Test
     public void cancelNota() throws Exception {
