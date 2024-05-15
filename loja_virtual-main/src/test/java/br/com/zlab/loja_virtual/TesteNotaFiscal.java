@@ -80,4 +80,14 @@ public class TesteNotaFiscal extends TestCase {
         String retorno = webManiaNotaFiscalService.emitirNotaFiscal(webManiaNotaFiscalEletronica);
         System.out.println("---->> Retorno Emissão nota fiscal: " + retorno);
     }
+    
+    @Test
+    public void cancelNota() throws Exception {
+        String retorno = webManiaNotaFiscalService.cancelarNotaFiscal(
+            "93d9fd23-2389-4f50-b57f-b873471eda2c", "cancelamento teste"/*uuid and reason*/
+        );
+
+        System.out.println("--->> Retorno cancelamento nota fiscal: " + retorno);
+    }
+
 }
