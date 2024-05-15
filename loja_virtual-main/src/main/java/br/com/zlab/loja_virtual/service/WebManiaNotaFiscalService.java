@@ -90,6 +90,7 @@ public class WebManiaNotaFiscalService {
         notaFiscalVenda.setTipo(emissaoNotaFiscalWebMania.getModelo());
         notaFiscalVenda.setVendaCompraLojaVirtual(vendaCompraLojaVirtual);
         notaFiscalVenda.setXml(emissaoNotaFiscalWebMania.getXml());
+        notaFiscalVenda.setChave(emissaoNotaFiscalWebMania.getChave());
 
         return notaFiscalVendaRepository.saveAndFlush(notaFiscalVenda);
     }

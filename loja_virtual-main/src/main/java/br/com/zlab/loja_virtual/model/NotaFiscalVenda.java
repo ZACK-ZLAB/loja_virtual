@@ -38,6 +38,9 @@ public class NotaFiscalVenda implements Serializable {
 
 	@Column(nullable = false)
 	private String tipo;
+	
+	@Column(nullable = false)
+	private String chave;
 
 	
 	@Column(columnDefinition = "text", nullable = false)
