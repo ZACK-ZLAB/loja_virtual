@@ -59,7 +59,7 @@ public class TesteNotaFiscal extends TestCase {
         produto.setUnidade("UN");
         produto.setPeso("0.800");
         produto.setOrigem(0);
-        produto.setSubtotal("5400");
+        produto.setSubtotal("5500");
         produto.setTotal("5500");
         produto.setClasse_imposto("REF1000");
 
@@ -67,12 +67,12 @@ public class TesteNotaFiscal extends TestCase {
         
         WebManiaPedidoNF pedidoNF = new WebManiaPedidoNF();
 
-        pedidoNF.setPagamento(0);
-        pedidoNF.setPresenca(2);
+        pedidoNF.setPagamento(0);/*a vista*/
+        pedidoNF.setPresenca(2);/*pela internet*/
         pedidoNF.setModalidade_frete(0);
-        pedidoNF.setFrete("100");
-        pedidoNF.setDesconto("20");
-        pedidoNF.setTotal("5500");
+        pedidoNF.setFrete("80");/*deve bater com o total do itens, total+frete=total dos itens*/
+        pedidoNF.setDesconto("80");
+        pedidoNF.setTotal("5420");
 
         webManiaNotaFiscalEletronica.setPedido(pedidoNF);
 
