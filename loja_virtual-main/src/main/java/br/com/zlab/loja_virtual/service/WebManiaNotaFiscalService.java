@@ -8,6 +8,7 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
+import br.com.zlab.loja_virtual.dto.ObjetoEstornoNotaFiscalWebMania;
 import br.com.zlab.loja_virtual.exception.dto.ObjetoEmissaoNotaFiscalWebMania;
 import br.com.zlab.loja_virtual.exception.dto.WebManiaNotaFiscalEletronica;
 import br.com.zlab.loja_virtual.model.NotaFiscalVenda;
@@ -94,6 +95,29 @@ public class WebManiaNotaFiscalService {
 
         return notaFiscalVendaRepository.saveAndFlush(notaFiscalVenda);
     }
+    
+    public String estornoNotaFiscal(ObjetoEstornoNotaFiscalWebMania estorno) throws Exception {
+        Client client = new HostIgnoringCliente("https://webmaniabr.com/api/").hostIgnoringCliente();
+        WebResource webResource = client.resource("https://webmaniabr.com/api/1/nfe/devolucao/");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(estorno);
+
+        ClientResponse clientResponse = webResource
+            .accept("application/json; charset=UTF-8")
+            .header("Content-Type", "application/json; charset=UTF-8")
+            .header("X-Consumer-Key", "N6scITMtiEunElnEUAVMQpRAhJrHgU0e")
+            .header("X-Consumer-Secret", "6fBypsFYfQCTt6LBAkRjuGm6nHimRWoNCOiQ9aqLkcNEtHLR")
+            .header("X-Access-Token", "3554-LLWm2CoGsTzxXW0QiLPmG2ha2f41S06hA3USo2IprD6J9Wwy")
+            .header("X-Access-Token-Secret", "6RGm39tdeCYEgIvOKLuSdrGbiuK769Lx0Ngy3iueCVXCDPOE")
+            .post(ClientResponse.class, json);
+
+        String stringRetorno = clientResponse.getEntity(String.class);
+        return stringRetorno;
+    }
+    
+    
+
 
 }
 

@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.com.zlab.loja_virtual.dto.ObjetoEstornoNotaFiscalWebMania;
 import br.com.zlab.loja_virtual.exception.dto.ObjetoEmissaoNotaFiscalWebMania;
 import br.com.zlab.loja_virtual.exception.dto.WebManiaClienteNF;
 import br.com.zlab.loja_virtual.exception.dto.WebManiaNotaFiscalEletronica;
@@ -126,5 +127,20 @@ public class TesteNotaFiscal extends TestCase {
 
         System.out.println("--->> Retorno consulta nota fiscal: " + retorno);
     }
+    
+    @Test
+    public void estornoNota() throws Exception {
+    	ObjetoEstornoNotaFiscalWebMania objetoEstornoNotaFiscalWebMania = new ObjetoEstornoNotaFiscalWebMania();
+    	
+    	objetoEstornoNotaFiscalWebMania.setChave("41230426934453000189550010000000071924977109");
+    	objetoEstornoNotaFiscalWebMania.setNatureza_operacao("999");
+    	objetoEstornoNotaFiscalWebMania.setCodigo_cfop("1.102");
+    	objetoEstornoNotaFiscalWebMania.setAmbiente("2");
+
+        String retorno = webManiaNotaFiscalService.estornoNotaFiscal(objetoEstornoNotaFiscalWebMania);
+
+        System.out.println("------>> Retorno do estorno da nota: " + retorno);
+    }
+
 
 }
