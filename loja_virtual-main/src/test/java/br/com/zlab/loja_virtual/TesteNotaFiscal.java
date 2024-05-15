@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.com.zlab.loja_virtual.dto.ObjetoDevolucaoNotaFiscalWebMania;
 import br.com.zlab.loja_virtual.dto.ObjetoEstornoNotaFiscalWebMania;
 import br.com.zlab.loja_virtual.exception.dto.ObjetoEmissaoNotaFiscalWebMania;
 import br.com.zlab.loja_virtual.exception.dto.WebManiaClienteNF;
@@ -138,6 +139,23 @@ public class TesteNotaFiscal extends TestCase {
     	objetoEstornoNotaFiscalWebMania.setAmbiente("2");
 
         String retorno = webManiaNotaFiscalService.estornoNotaFiscal(objetoEstornoNotaFiscalWebMania);
+
+        System.out.println("------>> Retorno do estorno da nota: " + retorno);
+    }
+    
+    @Test
+    public void devolucaoNota() throws Exception {
+    	ObjetoDevolucaoNotaFiscalWebMania objetoDevolucaoNotaFiscalWebMania = new ObjetoDevolucaoNotaFiscalWebMania();
+    	
+    	objetoDevolucaoNotaFiscalWebMania.setChave("41230426934453000189550010000000071924977109");
+    	objetoDevolucaoNotaFiscalWebMania.setNatureza_operacao("999");
+    	objetoDevolucaoNotaFiscalWebMania.setCodigo_cfop("1.102");
+    	objetoDevolucaoNotaFiscalWebMania.setAmbiente("2");
+    	objetoDevolucaoNotaFiscalWebMania.setVolume(1);
+    	objetoDevolucaoNotaFiscalWebMania.setProdutos(new int[] {1});
+    	objetoDevolucaoNotaFiscalWebMania.setQuantidade(new int[] {1});
+
+        String retorno = webManiaNotaFiscalService.devolucaoNotaFiscal(objetoDevolucaoNotaFiscalWebMania);
 
         System.out.println("------>> Retorno do estorno da nota: " + retorno);
     }
