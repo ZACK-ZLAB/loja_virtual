@@ -81,7 +81,7 @@ public class WebManiaNotaFiscalService {
         notaFiscalVenda.setNumero(emissaoNotaFiscalWebMania.getUuid());
         notaFiscalVenda.setPdf(emissaoNotaFiscalWebMania.getDanfe());
         notaFiscalVenda.setSerie(emissaoNotaFiscalWebMania.getSerie());
-        notaFiscalVenda.setTipo(emissaoNotaFiscalWebMania.getMotivo());
+        notaFiscalVenda.setTipo(emissaoNotaFiscalWebMania.getModelo());
         notaFiscalVenda.setVendaCompraLojaVirtual(vendaCompraLojaVirtual);
         notaFiscalVenda.setXml(emissaoNotaFiscalWebMania.getXml());
 

@@ -16,6 +16,7 @@ public class Log {
     private String dhRecbto;
     private String cUF;
     private String nRec;
-
-    private ArrayList<Object> aProt = new ArrayList<Object>();
+    private ArrayList<WebManiaProtNotaFiscal> aProt = new ArrayList<WebManiaProtNotaFiscal>();
+    
+    private String recibo;
 }

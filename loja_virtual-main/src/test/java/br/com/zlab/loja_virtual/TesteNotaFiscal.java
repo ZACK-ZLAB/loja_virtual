@@ -5,10 +5,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import br.com.zlab.loja_virtual.exception.dto.ObjetoEmissaoNotaFiscalWebMania;
 import br.com.zlab.loja_virtual.exception.dto.WebManiaClienteNF;
 import br.com.zlab.loja_virtual.exception.dto.WebManiaNotaFiscalEletronica;
 import br.com.zlab.loja_virtual.exception.dto.WebManiaPedidoNF;
 import br.com.zlab.loja_virtual.exception.dto.WebManiaProdutoNF;
+import br.com.zlab.loja_virtual.model.VendaCompraLojaVirtual;
+import br.com.zlab.loja_virtual.repository.Vd_Cp_Loja_virt_repository;
 import br.com.zlab.loja_virtual.service.WebManiaNotaFiscalService;
 import junit.framework.TestCase;
 
@@ -18,11 +25,25 @@ public class TesteNotaFiscal extends TestCase {
 
     @Autowired
     private WebManiaNotaFiscalService webManiaNotaFiscalService;
+    
+    @Autowired
+    private Vd_Cp_Loja_virt_repository vd_Cp_Loja_virt_repository;
 
+    @Test
     public void testeGravaNotaNoBanco() throws Exception {
     	String json = emiteNotaFiscal();
     	
+    	ObjectMapper objectMapper = new ObjectMapper();
+    	objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+
+    	ObjetoEmissaoNotaFiscalWebMania notaFiscalWebMania = objectMapper.readValue(json, new TypeReference<ObjetoEmissaoNotaFiscalWebMania>() {});
+
+    	VendaCompraLojaVirtual vendaCompraLojaVirtual = vd_Cp_Loja_virt_repository.findById(1L).get();
+
+    	webManiaNotaFiscalService.gravaNotaParaVenda(notaFiscalWebMania, vendaCompraLojaVirtual);
+
     }
+    
     @Test
     public void testeEmissaoNota() throws Exception {
         emiteNotaFiscal();
