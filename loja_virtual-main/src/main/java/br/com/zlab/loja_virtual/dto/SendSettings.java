@@ -15,7 +15,7 @@ public class SendSettings implements Serializable {
     private ArrayList<String> excludedCampaigns = new ArrayList<>();
     private ArrayList<String> excludedSegments = new ArrayList<>();
     private ArrayList<String> selectedContacts = new ArrayList<>();
-    private String timeTravel;
-    private String perfectTiming;
+    private String timeTravel = "false";
+    private String perfectTiming = "false";
 }
 
