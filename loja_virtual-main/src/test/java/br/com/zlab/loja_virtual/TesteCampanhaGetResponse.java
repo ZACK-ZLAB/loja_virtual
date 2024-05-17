@@ -46,26 +46,15 @@ public class TesteCampanhaGetResponse extends TestCase {
 
 	    LeadCampanhaGetResponse lead = new LeadCampanhaGetResponse();
 	    lead.setName("Zlab teste api");
-	    lead.setEmail("zlabtestes@gmail.com");
+	    lead.setEmail("zacarias1992.12.19@gmail.com");
 
 	    LeadCampanhaGetResponseCadastrado campanha = new LeadCampanhaGetResponseCadastrado();
 	    campanha.setCampaignId("jSz0Y");
 	    lead.setCampaign(campanha);
 
-	    String json = new ObjectMapper().writeValueAsString(lead);
-
-	    Client client = new HostIgnoringCliente(ApiTokenIntegracao.URL_END_POINT_GET_RESPONSE).hostIgnoringCliente();
-	    WebResource webResource = client.resource(ApiTokenIntegracao.URL_END_POINT_GET_RESPONSE + "contacts");
-
-	    ClientResponse clientResponse = webResource
-	        .accept(MediaType.APPLICATION_JSON)
-	        .type(MediaType.APPLICATION_JSON)
-	        .header("X-Auth-Token", ApiTokenIntegracao.TOKEN_GET_RESPONSE)
-	        .post(ClientResponse.class, json);
+	    String retorno = serviceGetResponseEmailMarketing.criaLeadApiGetResponse(lead);
 	    
-	    System.out.println(clientResponse.getEntity(String.class));
-	    
-	    clientResponse.close();
+	    System.out.println(retorno);
 	}
 	
 	@Test

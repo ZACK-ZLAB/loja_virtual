@@ -2,16 +2,20 @@ package br.com.zlab.loja_virtual.service;
 
 import java.util.List;
 
+
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+
 import br.com.zlab.loja_virtual.exception.dto.CampanhaGetResponse;
+import br.com.zlab.loja_virtual.exception.dto.LeadCampanhaGetResponse;
 import br.com.zlab.loja_virtual.util.ApiTokenIntegracao;
 import jakarta.ws.rs.core.MediaType;
-
 
 @Service
 public class ServiceGetResponseEmailMarketing {
@@ -33,4 +37,28 @@ public class ServiceGetResponseEmailMarketing {
  	    
         return list;
     }
+    
+    public String criaLeadApiGetResponse(LeadCampanhaGetResponse leadCampanhaGetResponse) throws Exception {
+        String json = new ObjectMapper().writeValueAsString(leadCampanhaGetResponse);
+
+        Client client = new HostIgnoringCliente(ApiTokenIntegracao.URL_END_POINT_GET_RESPONSE).hostIgnoringCliente();
+        WebResource webResource = client.resource(ApiTokenIntegracao.URL_END_POINT_GET_RESPONSE + "contacts");
+
+        ClientResponse clientResponse = webResource
+            .accept(MediaType.APPLICATION_JSON)
+            .type(MediaType.APPLICATION_JSON)
+            .header("X-Auth-Token", ApiTokenIntegracao.TOKEN_GET_RESPONSE)
+            .post(ClientResponse.class, json);
+
+        String retorno = clientResponse.getEntity(String.class);
+        
+        
+        if(clientResponse.getStatus() == 202) {
+        	retorno = "Cadastrado com sucesso";
+        }
+        
+        clientResponse.close();
+        return retorno;
+    }
+
 }
