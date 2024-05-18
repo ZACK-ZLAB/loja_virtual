@@ -57,44 +57,13 @@ public class TesteCampanhaGetResponse extends TestCase {
 	    System.out.println(retorno);
 	}
 	
+	
 	@Test
-	public void testEnviaEmailporAPI() throws Exception {
-		
-	    NewsLetterGetResponse newsLetterGetResponse = new NewsLetterGetResponse();
-
-	    newsLetterGetResponse.getSendSettings().getSelectedCampaigns().add("qKBgP"); /* Campanha e lista de e-mail para qual será enviado */
-	    newsLetterGetResponse.setSubject("Email para teste de API");
-	    newsLetterGetResponse.setName(newsLetterGetResponse.getSubject());
-
-	    newsLetterGetResponse.getReplyTo().setFromFieldId("oEvv8"); /* ID email para resposta */
-	    newsLetterGetResponse.getFromField().setFromFieldId("oEvv8"); /* ID do e-mail do remetente */
-	    newsLetterGetResponse.getCampaign().setCampaignId("jSz0Y"); /* Campanha de origem, campanha pai */
-
-	    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	    LocalDate hoje = LocalDate.now();
-	    LocalDate amanha = hoje.plusDays(1);
-	    String dataEnvio = amanha.format(dateTimeFormatter);
-	    
-	    newsLetterGetResponse.setSendOn(dataEnvio + "T15:20:52-03:00");
-	    
-	    newsLetterGetResponse.getContent().setHtml("<html><h3>Email escrito com html</h3></html>");
-
-	    
-	    String json = new ObjectMapper().writeValueAsString(newsLetterGetResponse);
-
-	    Client client = new HostIgnoringCliente(ApiTokenIntegracao.URL_END_POINT_GET_RESPONSE).hostIgnoringCliente();
-	    WebResource webResource = client.resource(ApiTokenIntegracao.URL_END_POINT_GET_RESPONSE + "newsletters");
-
-	    ClientResponse clientResponse = webResource
-	        .accept(MediaType.APPLICATION_JSON)
-	        .type(MediaType.APPLICATION_JSON)
-	        .header("X-Auth-Token", ApiTokenIntegracao.TOKEN_GET_RESPONSE)
-	        .post(ClientResponse.class, json);
-	    
-	    System.out.println(clientResponse.getEntity(String.class));
-	    
-	    clientResponse.close();
+	public void testEnviaEmailPorAPI() throws Exception {
+	    String retorno = serviceGetResponseEmailMarketing.enviaEmailApiGetResponse("jSz0Y", "Teste de e-mail", "<html><body>texto do email</body></html>");
+	    System.out.println(retorno);
 	}
+
 
 	
 	@Test
