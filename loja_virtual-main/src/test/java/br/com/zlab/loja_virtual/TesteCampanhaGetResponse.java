@@ -1,7 +1,5 @@
 package br.com.zlab.loja_virtual;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -9,19 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-
-import br.com.zlab.loja_virtual.dto.NewsLetterGetResponse;
+import br.com.zlab.loja_virtual.dto.ObjetoFromFieldIdGetResponse;
 import br.com.zlab.loja_virtual.exception.dto.CampanhaGetResponse;
 import br.com.zlab.loja_virtual.exception.dto.LeadCampanhaGetResponse;
 import br.com.zlab.loja_virtual.exception.dto.LeadCampanhaGetResponseCadastrado;
-import br.com.zlab.loja_virtual.service.HostIgnoringCliente;
 import br.com.zlab.loja_virtual.service.ServiceGetResponseEmailMarketing;
-import br.com.zlab.loja_virtual.util.ApiTokenIntegracao;
-import jakarta.ws.rs.core.MediaType;
 import junit.framework.TestCase;
 
 @Profile("devp")
@@ -67,19 +57,14 @@ public class TesteCampanhaGetResponse extends TestCase {
 
 	
 	@Test
-	public void testBuscaFromFieldId() throws Exception {
-	    Client client = new HostIgnoringCliente(ApiTokenIntegracao.URL_END_POINT_GET_RESPONSE).hostIgnoringCliente();
-	    WebResource webResource = client.resource(ApiTokenIntegracao.URL_END_POINT_GET_RESPONSE + "from-fields");
+	public void testBuscaFromFielId() throws Exception {
 
-	    String clientResponse = webResource
-	        .accept(MediaType.APPLICATION_JSON)
-	        .type(MediaType.APPLICATION_JSON)
-	        .header("X-Auth-Token", ApiTokenIntegracao.TOKEN_GET_RESPONSE)
-	        .get(String.class);
+	    List<ObjetoFromFieldIdGetResponse> fieldIdGetResponses = serviceGetResponseEmailMarketing.listaFromFieldId();
 
-	    System.out.println(clientResponse);
+	    for (ObjetoFromFieldIdGetResponse objetoFromFieldIdGetResponse : fieldIdGetResponses) {
+	        System.out.println(objetoFromFieldIdGetResponse);
+	    }
+
 	}
-
-
 
 }
