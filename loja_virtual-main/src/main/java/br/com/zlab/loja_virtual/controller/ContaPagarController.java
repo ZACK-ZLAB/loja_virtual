@@ -28,7 +28,7 @@ public class ContaPagarController {
 	
 	@ResponseBody /*Poder dar um retorno da API*/
 	@PostMapping(value = "/salvarContaPagar") /*Mapeando a url para receber JSON*/
-	public ResponseEntity<ContaPagar> salvarAcesso(@RequestBody @Valid ContaPagar contaPagar) throws LojaVirtualException { /*Recebe o JSON e converte pra Objeto*/
+	public ResponseEntity<ContaPagar> salvarContaPagar(@RequestBody @Valid ContaPagar contaPagar) throws LojaVirtualException { /*Recebe o JSON e converte pra Objeto*/
 		
 		if (contaPagar.getEmpresa() == null || contaPagar.getEmpresa().getId() <= 0) {
 			throw new LojaVirtualException("Empresa responsável deve ser informada");
